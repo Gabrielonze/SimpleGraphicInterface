@@ -64,6 +64,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		}
 		else if (tipo == TiposPrimitivos.CIRCULOS && p1 != null && p2 != null) {
 			circulos.add(new Circulo2D(p1, p2.calcularDistancia(p1)));
+		} else if (tipo == TiposPrimitivos.RETANGULOS && p1 != null && p2 != null) {
+			retangulos.add(new Retangulo2D(p1, p2));
 		}
 	}
 
@@ -138,15 +140,19 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		}
 		
 		if ((tipo == TiposPrimitivos.RETANGULOS) && (p1 != null) && (p2 != null)) {
-			Circulo2D r = new Circulo2D(p1, p2.calcularDistancia(p1));
+			Retangulo2D r = new Retangulo2D(p1, p2);
 
-			Circulo2D rOld = null; 
+			Retangulo2D rOld = null; 
 			if(oldP2 != null) {
-				rOld = new Circulo2D(p1, oldP2.calcularDistancia(p1), Color.WHITE);
-				rOld.desenharCirculoPolar(g);
+				rOld = new Retangulo2D(p1, oldP2, Color.WHITE);
+				rOld.desenharRetangulo(g);
 			}
 			
-			r.desenharCirculoPolar(g);
+			try {
+				r.desenharRetangulo(g);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		
