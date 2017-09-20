@@ -15,6 +15,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	Ponto2D p2, oldP2;
 	List<Reta2D> retas = new ArrayList<Reta2D>();
 	List<Circulo2D> circulos = new ArrayList<Circulo2D>();
+	List<Retangulo2D> retangulos = new ArrayList<Retangulo2D>();
 
 	public PainelDesenho(JLabel msg, TiposPrimitivos tipo) {
 		this.tipo = tipo;
@@ -92,6 +93,9 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		for(Circulo2D c : circulos) {
 			c.desenharCirculoPolar(g);
 		}
+		for(Retangulo2D c : retangulos) {
+			c.desenharRetangulo(g);
+		}
 	}
 
 	public void message(MouseEvent e){
@@ -132,6 +136,21 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			
 			r.desenharCirculoPolar(g);
 		}
+		
+		if ((tipo == TiposPrimitivos.RETANGULOS) && (p1 != null) && (p2 != null)) {
+			Circulo2D r = new Circulo2D(p1, p2.calcularDistancia(p1));
+
+			Circulo2D rOld = null; 
+			if(oldP2 != null) {
+				rOld = new Circulo2D(p1, oldP2.calcularDistancia(p1), Color.WHITE);
+				rOld.desenharCirculoPolar(g);
+			}
+			
+			r.desenharCirculoPolar(g);
+		}
+		
+		
+		
 		repaintAll(g);
 
 	}
