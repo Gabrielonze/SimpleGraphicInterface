@@ -13,6 +13,8 @@ class AppGUI extends JFrame {
     private JToolBar barraComandos = new JToolBar();
     private JButton jbRetas = new JButton("Retas");
     private JButton jbCirculos = new JButton("Circulos");
+    private JButton jbRetangulos = new JButton("Retangulos");
+    
 
     public AppGUI(int larg, int alt) {
         /**
@@ -28,6 +30,7 @@ class AppGUI extends JFrame {
         // Adicionando os componentes
         barraComandos.add(jbRetas);
         barraComandos.add(jbCirculos);
+        barraComandos.add(jbRetangulos);
  
         add(barraComandos, BorderLayout.NORTH);                
         add(areaDesenho, BorderLayout.CENTER);                
@@ -36,6 +39,7 @@ class AppGUI extends JFrame {
         Eventos eventos = new Eventos();
         jbRetas.addActionListener(eventos);
         jbCirculos.addActionListener(eventos);
+        jbRetangulos.addActionListener(eventos);
  
     }
 
@@ -44,15 +48,14 @@ class AppGUI extends JFrame {
         TiposPrimitivos tipo = TiposPrimitivos.RETAS;
 
         public void actionPerformed(ActionEvent event) {            
-
+        
+        	
             if (event.getSource() == jbRetas){
                 tipo = TiposPrimitivos.RETAS;
-                //repaint();
-            }            
-
-            if (event.getSource() == jbCirculos){
+            } else if (event.getSource() == jbCirculos){
                 tipo = TiposPrimitivos.CIRCULOS;
-                //repaint();
+            } else if (event.getSource() == jbRetangulos){
+                tipo = TiposPrimitivos.RETANGULOS;
             }
  
             // Enviando a Forma a ser desenhada e a cor da linha

@@ -7,5 +7,5 @@
  */
 public enum TiposPrimitivos
 {
-    RETAS, CIRCULOS, NENHUM
+    RETAS, CIRCULOS, RETANGULOS, NENHUM
 }

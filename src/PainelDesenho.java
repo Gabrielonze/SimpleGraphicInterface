@@ -32,7 +32,9 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		}
 		else if (tipo == TiposPrimitivos.CIRCULOS) {
 			msg.setText("Primitivo: CIRCULO ");
-		}
+		} else if (tipo == TiposPrimitivos.RETANGULOS) {
+			msg.setText("Primitivo: RETANGULO ");
+		} 
 		else {
 			msg.setText("Primitivo: NENHUM ");
 		}
@@ -97,6 +99,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			msg.setText("Primitivo: RETA (" + e.getX() + ", " + e.getY() + ")");
 		} else if (tipo == TiposPrimitivos.CIRCULOS) {
 			msg.setText("Primitivo: CIRCULO (" + e.getX() + ", " + e.getY() + ")");
+		} else if (tipo == TiposPrimitivos.RETANGULOS) {
+			msg.setText("Primitivo: RETANGULO (" + e.getX() + ", " + e.getY() + ")");
 		}
 		else {
 			msg.setText("Primitivo: NENHUM (" + e.getX() + ", " + e.getY() + ")");
