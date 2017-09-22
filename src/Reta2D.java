@@ -60,7 +60,7 @@ public class Reta2D extends Reta{
         return str;
     }
 //    public void desenharReta(Graphics g){
-   public void desenharRetaEq(Graphics g){
+   public void desenharReta(Graphics g){
 
         double b=calculaB();
         double m=calculaM();
@@ -153,7 +153,7 @@ public class Reta2D extends Reta{
     }
 
  //   public void desenharRetaDDA(Graphics g){
-    public void desenharReta(Graphics g){
+    public void desenharRetaNAOUSAR(Graphics g){
 		Ponto2D p0 = new Ponto2D(0, 0, cor);
 		
     	int x1 = (int) getP1().getX(), x2 = (int) getP2().getX();
