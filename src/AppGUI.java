@@ -4,63 +4,83 @@ import java.awt.event.*;
 
 class AppGUI extends JFrame {
 
-    private JLabel msg = new JLabel("Msg: ");
-    TiposPrimitivos tipo = TiposPrimitivos.NENHUM;
+	private JLabel msg = new JLabel("Msg: ");
+	TiposPrimitivos tipo = TiposPrimitivos.NENHUM;
 
-    private PainelDesenho areaDesenho = new PainelDesenho(msg, tipo);
-    
-    // barra de 
-    private JToolBar barraComandos = new JToolBar();
-    private JButton jbRetas = new JButton("Retas");
-    private JButton jbCirculos = new JButton("Circulos");
-    private JButton jbRetangulos = new JButton("Retangulos");
-    
+	private PainelDesenho areaDesenho = new PainelDesenho(msg, tipo);
 
-    public AppGUI(int larg, int alt) {
-        /**
-         * Definicoes de janela
-         */
-        super("Testa Primitivos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(larg, alt);
-        setVisible(true);
-        getContentPane().setBackground(java.awt.Color.white);
-        
+	// barra de 
+	private JToolBar barraComandos = new JToolBar();
+	private JButton jbRetas = new JButton("Retas");
+	private JButton jbCirculos = new JButton("Circulos");
+	private JButton jbRetangulos = new JButton("Retangulos");
+	private JButton jbCarregarDesenho = new JButton("Recarregar Desenho");
 
-        // Adicionando os componentes
-        barraComandos.add(jbRetas);
-        barraComandos.add(jbCirculos);
-        barraComandos.add(jbRetangulos);
- 
-        add(barraComandos, BorderLayout.NORTH);                
-        add(areaDesenho, BorderLayout.CENTER);                
-        add(msg, BorderLayout.SOUTH);
+	public AppGUI(int larg, int alt) {
+		/**
+		 * Definicoes de janela
+		 */
+		super("Testa Primitivos");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(larg, alt);
+		setVisible(true);
+		getContentPane().setBackground(java.awt.Color.white);
 
-        Eventos eventos = new Eventos();
-        jbRetas.addActionListener(eventos);
-        jbCirculos.addActionListener(eventos);
-        jbRetangulos.addActionListener(eventos);
- 
-    }
 
-    private class Eventos implements ActionListener{
+		// Adicionando os componentes
+		barraComandos.add(jbRetas);
+		barraComandos.add(jbCirculos);
+		barraComandos.add(jbRetangulos);
+		barraComandos.add(jbCarregarDesenho);
 
-        TiposPrimitivos tipo = TiposPrimitivos.RETAS;
+		add(barraComandos, BorderLayout.NORTH);                
+		add(areaDesenho, BorderLayout.CENTER);                
+		add(msg, BorderLayout.SOUTH);
 
-        public void actionPerformed(ActionEvent event) {            
-        
-        	
-            if (event.getSource() == jbRetas){
-                tipo = TiposPrimitivos.RETAS;
-            } else if (event.getSource() == jbCirculos){
-                tipo = TiposPrimitivos.CIRCULOS;
-            } else if (event.getSource() == jbRetangulos){
-                tipo = TiposPrimitivos.RETANGULOS;
-            }
- 
-            // Enviando a Forma a ser desenhada e a cor da linha
-            areaDesenho.setTipo( tipo );
- 
-        }
-    } 
+		Eventos eventos = new Eventos();
+		jbRetas.addActionListener(eventos);
+		jbCirculos.addActionListener(eventos);
+		jbRetangulos.addActionListener(eventos);
+		jbCarregarDesenho.addActionListener(eventos);
+
+	}
+
+	private class Eventos implements ActionListener{
+
+		public void actionPerformed(ActionEvent event) {            
+
+			if (event.getSource() == jbRetas){
+				areaDesenho.setTipo(TiposPrimitivos.RETAS);
+			} else if (event.getSource() == jbCirculos){
+				areaDesenho.setTipo(TiposPrimitivos.CIRCULOS);
+			} else if (event.getSource() == jbRetangulos){
+				areaDesenho.setTipo(TiposPrimitivos.RETANGULOS);
+			} else if( event.getSource() == jbCarregarDesenho) {
+				loadFile();
+			}
+		}
+	}
+	
+	private void loadFile() {
+		//TODO: Abrir janela de seleção de arquivo
+		FileReader fr = new FileReader();
+		//TODO -> Gerar retas/retangulos/circulos
+		boolean fullLoad = fr.readFile();
+		
+		if(fullLoad) {
+			System.out.println("Só imprimo depois de ler tudo");
+			areaDesenho.apagarTudo();
+			areaDesenho.setRetas(fr.getRetas());
+			areaDesenho.setRetangulos(fr.getRetangulos());
+			areaDesenho.setCirculos(fr.getCirculos());
+			
+			//TODO -> Checar se Windows consegue usar o repaint, se sim, apagar "apagarTudo"
+			areaDesenho.repaint();
+			
+		} else {
+			System.out.println("Arquivo não pode ser lido");
+		}
+		
+	}
+	
 }
