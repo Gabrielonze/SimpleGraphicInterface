@@ -12,6 +12,12 @@ class Circulo2D extends Circulo{
         setStr(str);
     }
     
+    public Circulo2D(int x, int y, int raio) {
+    		super(x, y, raio);
+    		setCor(Color.black);
+        setStr("");
+	}
+    
     Circulo2D(Ponto2D c, double raio, Color cor, String str){
         super(c, raio);
         setCor(cor);
@@ -35,7 +41,7 @@ class Circulo2D extends Circulo{
         setCor(Color.black);
     }
 
-    void setCor(Color cor){
+	void setCor(Color cor){
         _cor = cor;
     }
 

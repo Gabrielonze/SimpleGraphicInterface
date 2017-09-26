@@ -5,8 +5,7 @@
  * @author (seu nome) 
  * @version (número de versão ou data)
  */
-public class App
-{
+public class App {
 	public static void main(String args[]) {
 		new AppGUI(700, 700); // define dimensao da janela (em pixels)
 	}
