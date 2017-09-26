@@ -44,6 +44,16 @@ class AppGUI extends JFrame {
 		jbCarregarDesenho.addActionListener(eventos);
 
 	}
+	
+	Thread loadFileThread = new Thread() {
+	    public void run() {
+	        try {
+	        		loadFile();
+	        } catch(Exception v) {
+	            System.out.println(v);
+	        }
+	    }  
+	};
 
 	private class Eventos implements ActionListener{
 
@@ -56,10 +66,15 @@ class AppGUI extends JFrame {
 			} else if (event.getSource() == jbRetangulos){
 				areaDesenho.setTipo(TiposPrimitivos.RETANGULOS);
 			} else if( event.getSource() == jbCarregarDesenho) {
-				loadFile();
+				loadFileThread.start();
+				//loadFile();
 			}
+			
+			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
+			
 		}
 	}
+
 	
 	private void loadFile() {
 		//TODO: Abrir janela de seleção de arquivo
