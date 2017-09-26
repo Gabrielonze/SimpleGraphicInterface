@@ -66,8 +66,8 @@ class AppGUI extends JFrame {
 			} else if (event.getSource() == jbRetangulos){
 				areaDesenho.setTipo(TiposPrimitivos.RETANGULOS);
 			} else if( event.getSource() == jbCarregarDesenho) {
-				loadFileThread.start();
-				//loadFile();
+				//loadFileThread.start();
+				loadFile();
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
