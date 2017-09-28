@@ -29,6 +29,18 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		this.retangulos = retangulos;
 	}
 
+	public List<Reta2D> getRetas() {
+		return retas;
+	}
+
+	public List<Circulo2D> getCirculos() {
+		return circulos;
+	}
+
+	public List<Retangulo2D> getRetangulos() {
+		return retangulos;
+	}
+
 	public PainelDesenho(JLabel msg, TiposPrimitivos tipo) {
 		this.tipo = tipo;
 		this.msg = msg;

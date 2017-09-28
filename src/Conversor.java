@@ -6,6 +6,10 @@ public class Conversor {
 		return (int) (Float.parseFloat(relative) * 1000);
 	}
 	
+	public static String pixelToRelative(double pixel) {
+		return "0.555555";
+	}
+	
 	public static String fileExt(String fileName) {
 		String extension = "";
 

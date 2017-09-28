@@ -15,6 +15,7 @@ class AppGUI extends JFrame {
 	private JButton jbCirculos = new JButton("Circulos");
 	private JButton jbRetangulos = new JButton("Retangulos");
 	private JButton jbCarregarDesenho = new JButton("Recarregar Desenho");
+	private JButton jbSalvarDesenho = new JButton("Salvar Desenho");
 
 	public AppGUI(int larg, int alt) {
 		/**
@@ -32,6 +33,7 @@ class AppGUI extends JFrame {
 		barraComandos.add(jbCirculos);
 		barraComandos.add(jbRetangulos);
 		barraComandos.add(jbCarregarDesenho);
+		barraComandos.add(jbSalvarDesenho);
 
 		add(barraComandos, BorderLayout.NORTH);                
 		add(areaDesenho, BorderLayout.CENTER);                
@@ -42,6 +44,7 @@ class AppGUI extends JFrame {
 		jbCirculos.addActionListener(eventos);
 		jbRetangulos.addActionListener(eventos);
 		jbCarregarDesenho.addActionListener(eventos);
+		jbSalvarDesenho.addActionListener(eventos);
 
 	}
 	
@@ -57,6 +60,8 @@ class AppGUI extends JFrame {
 				areaDesenho.setTipo(TiposPrimitivos.RETANGULOS);
 			} else if( event.getSource() == jbCarregarDesenho) {
 				loadFile();
+			} else if( event.getSource() == jbSalvarDesenho) {
+				saveFile();
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
@@ -86,7 +91,10 @@ class AppGUI extends JFrame {
 		} else {
 			System.out.println("Arquivo não pode ser lido");
 		}
-		
+	}
+	
+	private void saveFile() {
+		FileWriter.write(areaDesenho.getRetas());
 	}
 	
 }
