@@ -45,16 +45,6 @@ class AppGUI extends JFrame {
 
 	}
 	
-	Thread loadFileThread = new Thread() {
-	    public void run() {
-	        try {
-	        		loadFile();
-	        } catch(Exception v) {
-	            System.out.println(v);
-	        }
-	    }  
-	};
-
 	private class Eventos implements ActionListener{
 
 		public void actionPerformed(ActionEvent event) {            
@@ -66,7 +56,6 @@ class AppGUI extends JFrame {
 			} else if (event.getSource() == jbRetangulos){
 				areaDesenho.setTipo(TiposPrimitivos.RETANGULOS);
 			} else if( event.getSource() == jbCarregarDesenho) {
-				//loadFileThread.start();
 				loadFile();
 			}
 			
@@ -77,10 +66,12 @@ class AppGUI extends JFrame {
 
 	
 	private void loadFile() {
-		//TODO: Abrir janela de seleção de arquivo
+		
+		JFileChooser openFile = new JFileChooser();
+        openFile.showOpenDialog(null);
+        
 		FileReader fr = new FileReader();
-		//TODO -> Gerar retas/retangulos/circulos
-		boolean fullLoad = fr.readFile();
+		boolean fullLoad = fr.readFile(openFile.getSelectedFile().getPath());
 		
 		if(fullLoad) {
 			System.out.println("Só imprimo depois de ler tudo");

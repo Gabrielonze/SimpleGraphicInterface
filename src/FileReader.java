@@ -1,4 +1,5 @@
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -14,24 +15,29 @@ class FileReader{
 	private List<Circulo2D> circulos = new ArrayList<Circulo2D>();
 	private List<Retangulo2D> retangulos = new ArrayList<Retangulo2D>();
 
-	public boolean readFile(){
+	public boolean readFile(String xmlPath){
 		try {
 			
-			File fXmlFile = new File("exemplo.xml");
-			
-			System.out.println("File exists: " +fXmlFile.exists());
-		
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(fXmlFile);
+			File fXmlFile = new File(xmlPath);
 
-			doc.getDocumentElement().normalize();
+		    if (Conversor.fileExt(fXmlFile.getAbsolutePath()).equals("xml")) {
+		    	System.out.println("File exists: " +fXmlFile.exists());
+				
+				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				Document doc = dBuilder.parse(fXmlFile);
 
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-			
-			buildRetas(doc.getElementsByTagName("Reta"));
-			buildRetangulos(doc.getElementsByTagName("Retangulo"));
-			buildCirculos(doc.getElementsByTagName("Circulo"));
+				doc.getDocumentElement().normalize();
+
+				System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+				
+				buildRetas(doc.getElementsByTagName("Reta"));
+				buildRetangulos(doc.getElementsByTagName("Retangulo"));
+				buildCirculos(doc.getElementsByTagName("Circulo"));
+				
+		    } else {
+		    		JOptionPane.showMessageDialog(null, "Por favor, Selecione um XML");
+		    }
 			
 			return true;
 		} catch (Exception e) {
