@@ -1,6 +1,10 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 class AppGUI extends JFrame {
 
@@ -73,6 +77,7 @@ class AppGUI extends JFrame {
 	private void loadFile() {
 		
 		JFileChooser openFile = new JFileChooser();
+		openFile.setFileFilter(new FileNameExtensionFilter("xml file","xml"));
         openFile.showOpenDialog(null);
         
 		FileReader fr = new FileReader();
@@ -94,7 +99,23 @@ class AppGUI extends JFrame {
 	}
 	
 	private void saveFile() {
-		FileWriter.write(areaDesenho.getRetas());
+		
+		JFileChooser result = new JFileChooser();
+		result.setFileFilter(new FileNameExtensionFilter("xml file","xml"));
+		result.showSaveDialog(null);
+            
+        File targetFile = result.getSelectedFile();
+
+        if (! Conversor.fileExt(targetFile.getName()).equalsIgnoreCase("xml")) {
+        		targetFile = new File(targetFile.toString() + ".xml");
+        }
+        
+        try {
+			targetFile.createNewFile();
+			FileWriter.write(targetFile, areaDesenho.getRetas(), areaDesenho.getCirculos(), areaDesenho.getRetangulos());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
