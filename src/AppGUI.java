@@ -19,6 +19,7 @@ class AppGUI extends JFrame {
 	private JButton jbCirculos = new JButton("Circulos");
 	private JButton jbRetangulos = new JButton("Retangulos");
 	private JButton jbLinhaPoligonal = new JButton("Linha Poligonal");
+	private JButton jbPoligono = new JButton("Poligono");
 	private JButton jbCarregarDesenho = new JButton("Recarregar Desenho");
 	private JButton jbSalvarDesenho = new JButton("Salvar Desenho");
 
@@ -37,9 +38,10 @@ class AppGUI extends JFrame {
 		barraComandos.add(jbRetas);
 		barraComandos.add(jbCirculos);
 		barraComandos.add(jbRetangulos);
+		barraComandos.add(jbLinhaPoligonal);
+		barraComandos.add(jbPoligono);
 		barraComandos.add(jbCarregarDesenho);
 		barraComandos.add(jbSalvarDesenho);
-		barraComandos.add(jbLinhaPoligonal);
 
 		add(barraComandos, BorderLayout.NORTH);                
 		add(areaDesenho, BorderLayout.CENTER);                
@@ -49,9 +51,10 @@ class AppGUI extends JFrame {
 		jbRetas.addActionListener(eventos);
 		jbCirculos.addActionListener(eventos);
 		jbRetangulos.addActionListener(eventos);
+		jbLinhaPoligonal.addActionListener(eventos);
+		jbPoligono.addActionListener(eventos);
 		jbCarregarDesenho.addActionListener(eventos);
 		jbSalvarDesenho.addActionListener(eventos);
-		jbLinhaPoligonal.addActionListener(eventos);
 
 	}
 	
@@ -67,6 +70,8 @@ class AppGUI extends JFrame {
 				areaDesenho.setTipo(TiposPrimitivos.RETANGULOS);
 			} else if (event.getSource() == jbLinhaPoligonal){
 				areaDesenho.setTipo(TiposPrimitivos.LINHA_POLIGONAL);
+			} else if (event.getSource() == jbPoligono){
+				areaDesenho.setTipo(TiposPrimitivos.POLIGONO);
 			} else if( event.getSource() == jbCarregarDesenho) {
 				loadFile();
 			} else if( event.getSource() == jbSalvarDesenho) {
