@@ -33,6 +33,14 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	public void setRetangulos(List<Retangulo2D> retangulos) {
 		this.retangulos = retangulos;
 	}
+	
+	public void setLinhasPoligonais(List<LinhaPoligonal2D> linhasPoligonais) {
+		this.linhasPoligonais = linhasPoligonais;
+	}
+	
+	public void setPoligonos(List<Poligono2D> poligonos) {
+		this.poligonos = poligonos;
+	}
 
 	public List<Reta2D> getRetas() {
 		return retas;
@@ -44,6 +52,14 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 
 	public List<Retangulo2D> getRetangulos() {
 		return retangulos;
+	}
+	
+	public List<LinhaPoligonal2D> getLinhasPoligonais() {
+		return linhasPoligonais;
+	}
+
+	public List<Poligono2D> getPoligonos() {
+		return poligonos;
 	}
 
 	public PainelDesenho(JLabel msg, TiposPrimitivos tipo) {
@@ -155,7 +171,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	public void mouseDragged(MouseEvent e) {
 
 		message(e);
-		if(tipo != TiposPrimitivos.LINHA_POLIGONAL && tipo == TiposPrimitivos.POLIGONO) {
+		if(tipo != TiposPrimitivos.LINHA_POLIGONAL && tipo != TiposPrimitivos.POLIGONO) {
 			oldP2 = p2;
 			p2 = new Ponto2D(e.getX(), e.getY());
 			repaint();

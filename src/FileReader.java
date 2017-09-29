@@ -14,6 +14,8 @@ class FileReader{
 	private List<Reta2D> retas = new ArrayList<Reta2D>();
 	private List<Circulo2D> circulos = new ArrayList<Circulo2D>();
 	private List<Retangulo2D> retangulos = new ArrayList<Retangulo2D>();
+	private List<LinhaPoligonal2D> linhasPoligonais = new ArrayList<LinhaPoligonal2D>();
+	private List<Poligono2D> poligonos = new ArrayList<Poligono2D>();
 
 	public boolean readFile(String xmlPath){
 		try {
@@ -34,6 +36,8 @@ class FileReader{
 				buildRetas(doc.getElementsByTagName("Reta"));
 				buildRetangulos(doc.getElementsByTagName("Retangulo"));
 				buildCirculos(doc.getElementsByTagName("Circulo"));
+				buildLinhasPoligonais(doc.getElementsByTagName("LinhaPoligonal"));
+				buildPoligonos(doc.getElementsByTagName("Poligono"));
 				
 		    } else {
 		    		JOptionPane.showMessageDialog(null, "Por favor, Selecione um XML");
@@ -58,6 +62,71 @@ class FileReader{
 		return retangulos;
 	}
 	
+	public List<LinhaPoligonal2D> getLinhasPoligonais() {
+		return linhasPoligonais;
+	}
+
+	public List<Poligono2D> getPoligonos() {
+		return poligonos;
+	}
+	
+	private void buildLinhasPoligonais(NodeList nList) {
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			Node nNode = nList.item(temp);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+				List<Ponto> pontos = new ArrayList<Ponto>();
+				
+				Element elementCor = (Element) eElement.getElementsByTagName("Cor").item(0);
+				String corR = elementCor.getElementsByTagName("R").item(0).getTextContent();
+				String corG = elementCor.getElementsByTagName("G").item(0).getTextContent();
+				String corB = elementCor.getElementsByTagName("B").item(0).getTextContent();
+				
+				NodeList nl = eElement.getElementsByTagName("Ponto");
+				for(int i = 0; i < nl.getLength();  i++) {
+					Element elementPonto = (Element) nl.item(i);
+					
+					String p1x = elementPonto.getElementsByTagName("x").item(0).getTextContent();
+					String p1y = elementPonto.getElementsByTagName("y").item(0).getTextContent();
+					pontos.add(new Ponto((double) Conversor.relativeToPixel(p1x), (double) Conversor.relativeToPixel(p1y)));
+					
+				}
+				
+				//TODO - COR????
+				linhasPoligonais.add(new LinhaPoligonal2D(pontos));
+			
+			}
+		}
+	}
+	
+	private void buildPoligonos(NodeList nList) {
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			Node nNode = nList.item(temp);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nNode;
+				List<Ponto> pontos = new ArrayList<Ponto>();
+				
+				Element elementCor = (Element) eElement.getElementsByTagName("Cor").item(0);
+				String corR = elementCor.getElementsByTagName("R").item(0).getTextContent();
+				String corG = elementCor.getElementsByTagName("G").item(0).getTextContent();
+				String corB = elementCor.getElementsByTagName("B").item(0).getTextContent();
+				
+				NodeList nl = eElement.getElementsByTagName("Ponto");
+				for(int i = 0; i < nl.getLength();  i++) {
+					Element elementPonto = (Element) nl.item(i);
+					
+					String p1x = elementPonto.getElementsByTagName("x").item(0).getTextContent();
+					String p1y = elementPonto.getElementsByTagName("y").item(0).getTextContent();
+					pontos.add(new Ponto((double) Conversor.relativeToPixel(p1x), (double) Conversor.relativeToPixel(p1y)));
+					
+				}
+				
+				//TODO - COR????
+				poligonos.add(new Poligono2D(pontos));
+			}
+		}
+	}
+	
 	private void buildRetas(NodeList nList) {
 		for (int temp = 0; temp < nList.getLength(); temp++) {
 			Node nNode = nList.item(temp);
@@ -78,16 +147,6 @@ class FileReader{
 				String p2y = elementPonto2.getElementsByTagName("y").item(0).getTextContent();
 				
 				createReta(p1x, p1y, p2x, p2y, corR, corG, corB);
-				
-				/*System.out.println("corR : " + corR);
-				System.out.println("corG : " + corG);
-				System.out.println("corB : " + corB);
-				
-				System.out.println("p1x : " + p1x);
-				System.out.println("p1y : " + p1y);
-				
-				System.out.println("p2x : " + p2x);
-				System.out.println("p2y : " + p2y);*/
 			
 			}
 		}

@@ -102,6 +102,8 @@ class AppGUI extends JFrame {
 				areaDesenho.setRetas(fr.getRetas());
 				areaDesenho.setRetangulos(fr.getRetangulos());
 				areaDesenho.setCirculos(fr.getCirculos());
+				areaDesenho.setLinhasPoligonais(fr.getLinhasPoligonais());
+				areaDesenho.setPoligonos(fr.getPoligonos());
 				
 				//TODO -> Checar se Windows consegue usar o repaint, se sim, apagar "apagarTudo"
 				areaDesenho.repaint();
@@ -126,7 +128,7 @@ class AppGUI extends JFrame {
         
         try {
 			targetFile.createNewFile();
-			FileWriter.write(targetFile, areaDesenho.getRetas(), areaDesenho.getCirculos(), areaDesenho.getRetangulos());
+			FileWriter.write(targetFile, areaDesenho.getRetas(), areaDesenho.getCirculos(), areaDesenho.getRetangulos(), areaDesenho.getLinhasPoligonais(), areaDesenho.getPoligonos());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
