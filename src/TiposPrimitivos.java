@@ -5,7 +5,6 @@
  * @author (your name here)
  * @version (version number or date here)
  */
-public enum TiposPrimitivos
-{
-    RETAS, CIRCULOS, RETANGULOS, NENHUM
+public enum TiposPrimitivos{
+    RETAS, CIRCULOS, RETANGULOS, LINHA_POLIGONAL, POLIGONO, NENHUM
 }

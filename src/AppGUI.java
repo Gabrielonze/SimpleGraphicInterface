@@ -18,6 +18,7 @@ class AppGUI extends JFrame {
 	private JButton jbRetas = new JButton("Retas");
 	private JButton jbCirculos = new JButton("Circulos");
 	private JButton jbRetangulos = new JButton("Retangulos");
+	private JButton jbLinhaPoligonal = new JButton("Linha Poligonal");
 	private JButton jbCarregarDesenho = new JButton("Recarregar Desenho");
 	private JButton jbSalvarDesenho = new JButton("Salvar Desenho");
 
@@ -38,6 +39,7 @@ class AppGUI extends JFrame {
 		barraComandos.add(jbRetangulos);
 		barraComandos.add(jbCarregarDesenho);
 		barraComandos.add(jbSalvarDesenho);
+		barraComandos.add(jbLinhaPoligonal);
 
 		add(barraComandos, BorderLayout.NORTH);                
 		add(areaDesenho, BorderLayout.CENTER);                
@@ -49,6 +51,7 @@ class AppGUI extends JFrame {
 		jbRetangulos.addActionListener(eventos);
 		jbCarregarDesenho.addActionListener(eventos);
 		jbSalvarDesenho.addActionListener(eventos);
+		jbLinhaPoligonal.addActionListener(eventos);
 
 	}
 	
@@ -62,6 +65,8 @@ class AppGUI extends JFrame {
 				areaDesenho.setTipo(TiposPrimitivos.CIRCULOS);
 			} else if (event.getSource() == jbRetangulos){
 				areaDesenho.setTipo(TiposPrimitivos.RETANGULOS);
+			} else if (event.getSource() == jbLinhaPoligonal){
+				areaDesenho.setTipo(TiposPrimitivos.LINHA_POLIGONAL);
 			} else if( event.getSource() == jbCarregarDesenho) {
 				loadFile();
 			} else if( event.getSource() == jbSalvarDesenho) {
@@ -81,20 +86,24 @@ class AppGUI extends JFrame {
         openFile.showOpenDialog(null);
         
 		FileReader fr = new FileReader();
-		boolean fullLoad = fr.readFile(openFile.getSelectedFile().getPath());
+		File f = openFile.getSelectedFile();
 		
-		if(fullLoad) {
-			System.out.println("Só imprimo depois de ler tudo");
-			areaDesenho.apagarTudo();
-			areaDesenho.setRetas(fr.getRetas());
-			areaDesenho.setRetangulos(fr.getRetangulos());
-			areaDesenho.setCirculos(fr.getCirculos());
+		if(f != null) {
+			boolean fullLoad = fr.readFile(f.getPath());
 			
-			//TODO -> Checar se Windows consegue usar o repaint, se sim, apagar "apagarTudo"
-			areaDesenho.repaint();
-			
-		} else {
-			System.out.println("Arquivo não pode ser lido");
+			if(fullLoad) {
+				System.out.println("Só imprimo depois de ler tudo");
+				areaDesenho.apagarTudo();
+				areaDesenho.setRetas(fr.getRetas());
+				areaDesenho.setRetangulos(fr.getRetangulos());
+				areaDesenho.setCirculos(fr.getCirculos());
+				
+				//TODO -> Checar se Windows consegue usar o repaint, se sim, apagar "apagarTudo"
+				areaDesenho.repaint();
+				
+			} else {
+				System.out.println("Arquivo não pode ser lido");
+			}
 		}
 	}
 	

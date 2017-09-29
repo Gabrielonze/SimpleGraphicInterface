@@ -7,7 +7,8 @@ public class Conversor {
 	}
 	
 	public static String pixelToRelative(double pixel) {
-		return "0.555555";
+		//TODO - CONVERTER
+		return (pixel / 1000) + "";
 	}
 	
 	public static String fileExt(String fileName) {
