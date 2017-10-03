@@ -12,7 +12,7 @@ class AppGUI extends JFrame {
 	TiposPrimitivos tipo = TiposPrimitivos.NENHUM;
 
 	private PainelDesenho areaDesenho = new PainelDesenho(msg, tipo);
-
+	
 	// barra de 
 	private JToolBar barraComandos = new JToolBar();
 	private JButton jbRetas = new JButton("Retas");
@@ -33,7 +33,7 @@ class AppGUI extends JFrame {
 		setSize(larg, alt);
 		setVisible(true);
 		getContentPane().setBackground(java.awt.Color.white);
-
+		setResizable(false);
 
 		// Adicionando os componentes
 		barraComandos.add(jbRetas);
