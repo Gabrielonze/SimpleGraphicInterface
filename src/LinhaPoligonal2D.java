@@ -52,7 +52,7 @@ public class LinhaPoligonal2D extends LinhaPoligonal {
 				lastPoint = new Ponto2D((int)p.getX(), (int)p.getY());
 			} else {
 				Ponto2D currentPoint = new Ponto2D((int)p.getX(), (int)p.getY());
-				Reta2D reta = new Reta2D(lastPoint, currentPoint);
+				Reta2D reta = new Reta2D(lastPoint, currentPoint, cor);
 				reta.desenharReta(g);
 				lastPoint = currentPoint;
 			}			

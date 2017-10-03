@@ -54,14 +54,14 @@ public class Poligono2D extends Poligono {
 				firstPoint = lastPoint;
 			} else {
 				Ponto2D currentPoint = new Ponto2D((int)p.getX(), (int)p.getY());
-				Reta2D reta = new Reta2D(lastPoint, currentPoint);
+				Reta2D reta = new Reta2D(lastPoint, currentPoint, cor);
 				reta.desenharReta(g);
 				lastPoint = currentPoint;
 			}			
 		}
 		
 		if(complete) {
-			Reta2D reta = new Reta2D(firstPoint, lastPoint);
+			Reta2D reta = new Reta2D(firstPoint, lastPoint, cor);
 			reta.desenharReta(g);
 		}
 	}

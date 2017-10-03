@@ -67,10 +67,10 @@ public class Retangulo2D extends Retangulo {
 		Ponto2D ponto3 = new Ponto2D((int)getVertice2().getX(), (int)getVertice1().getY());
 		Ponto2D ponto4 = new Ponto2D((int)getVertice2().getX(), (int)getVertice2().getY());
 
-		Reta2D r1 = new Reta2D(ponto1, ponto2);
-		Reta2D r2 = new Reta2D(ponto3, ponto4);
-		Reta2D r3 = new Reta2D(ponto1, ponto3);
-		Reta2D r4 = new Reta2D(ponto2, ponto4);
+		Reta2D r1 = new Reta2D(ponto1, ponto2, cor);
+		Reta2D r2 = new Reta2D(ponto3, ponto4, cor);
+		Reta2D r3 = new Reta2D(ponto1, ponto3, cor);
+		Reta2D r4 = new Reta2D(ponto2, ponto4, cor);
 
 		r1.desenharReta(g);
 		r2.desenharReta(g);

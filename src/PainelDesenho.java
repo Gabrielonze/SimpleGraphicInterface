@@ -18,10 +18,22 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	List<Retangulo2D> retangulos = new ArrayList<Retangulo2D>();
 	List<LinhaPoligonal2D> linhasPoligonais = new ArrayList<LinhaPoligonal2D>();
 	List<Poligono2D> poligonos = new ArrayList<Poligono2D>();
-	
+	Color currentColor = Color.BLACK;
 	LinhaPoligonal2D lp = null;
 	Poligono2D po = null;
 
+	public void setCor(Color cor) {
+		this.currentColor = cor;
+		
+		if(po != null) {
+			po.setCor(cor);
+		}
+		if(lp != null) {
+			lp.setCor(cor);
+		}
+				
+	}
+	
 	public void setRetas(List<Reta2D> retas) {
 		this.retas = retas;
 	}
@@ -82,10 +94,10 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			msg.setText("Primitivo: RETANGULO ");
 		} else if(tipo == TiposPrimitivos.LINHA_POLIGONAL) {
 			msg.setText("Primitivo: LINHA POLIGONAL ");
-			lp = new LinhaPoligonal2D(new ArrayList<Ponto>());
+			lp = new LinhaPoligonal2D(new ArrayList<Ponto>(), currentColor);
 		} else if(tipo == TiposPrimitivos.POLIGONO) {
 			msg.setText("Primitivo: POLIGONO ");
-			po = new Poligono2D(new ArrayList<Ponto>());
+			po = new Poligono2D(new ArrayList<Ponto>(), currentColor);
 		}
 		else {
 			msg.setText("Primitivo: NENHUM ");
@@ -121,13 +133,13 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			p1 = null;
 			p2 = null;
 			linhasPoligonais.add(lp);
-			lp = new LinhaPoligonal2D(new ArrayList<Ponto>());
+			lp = new LinhaPoligonal2D(new ArrayList<Ponto>(), currentColor);
 			repaint();
 		} else if (e.getButton() == 3 && tipo == TiposPrimitivos.POLIGONO) {
 			p1 = null;
 			p2 = null;
 			poligonos.add(po);
-			po = new Poligono2D(new ArrayList<Ponto>());
+			po = new Poligono2D(new ArrayList<Ponto>(), currentColor);
 			repaint();
 		}
 	}
@@ -135,12 +147,12 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	public void mouseReleased(MouseEvent e) {
 
 		if (tipo == TiposPrimitivos.RETAS && p1 != null && p2 != null) {
-			retas.add(new Reta2D(p1, p2));
+			retas.add(new Reta2D(p1, p2, currentColor));
 		}
 		else if (tipo == TiposPrimitivos.CIRCULOS && p1 != null && p2 != null) {
-			circulos.add(new Circulo2D(p1, p2.calcularDistancia(p1)));
+			circulos.add(new Circulo2D(p1, p2.calcularDistancia(p1), currentColor));
 		} else if (tipo == TiposPrimitivos.RETANGULOS && p1 != null && p2 != null) {
-			retangulos.add(new Retangulo2D(p1, p2));
+			retangulos.add(new Retangulo2D(p1, p2, currentColor));
 		}
 		
 		if(tipo != TiposPrimitivos.LINHA_POLIGONAL && tipo != TiposPrimitivos.POLIGONO) {
@@ -201,6 +213,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		if(po != null) {
 			po.desenharPoligono(g, false);
 		}
+		
+		setBackground(java.awt.Color.white);
 	}
 
 	public void message(MouseEvent e){
@@ -229,12 +243,12 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 				rOld.desenharReta(g);
 			}
 
-			Reta2D r = new Reta2D(p1, p2);
+			Reta2D r = new Reta2D(p1, p2, currentColor);
 			r.desenharReta(g);
 		}
 
 		if ((tipo == TiposPrimitivos.CIRCULOS) && (p1 != null) && (p2 != null)) {
-			Circulo2D r = new Circulo2D(p1, p2.calcularDistancia(p1));
+			Circulo2D r = new Circulo2D(p1, p2.calcularDistancia(p1), currentColor);
 
 			Circulo2D rOld = null; 
 			if(oldP2 != null) {
@@ -246,7 +260,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		}
 		
 		if ((tipo == TiposPrimitivos.RETANGULOS) && (p1 != null) && (p2 != null)) {
-			Retangulo2D r = new Retangulo2D(p1, p2);
+			Retangulo2D r = new Retangulo2D(p1, p2, currentColor);
 
 			Retangulo2D rOld = null; 
 			if(oldP2 != null) {

@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.File;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class FileWriter {
 		for(Ponto p : poligono.getPontos()) {
 			poligonoElement.appendChild(createPonto(p, doc));
 		}
-		poligonoElement.appendChild(createCor(doc));
+		poligonoElement.appendChild(createCor(doc, poligono.getCor()));
 	}
 
 
@@ -80,7 +81,7 @@ public class FileWriter {
 		for(Ponto p : linhaPoligonal.getPontos()) {
 			linhaPoligonalElement.appendChild(createPonto(p, doc));
 		}
-		linhaPoligonalElement.appendChild(createCor(doc));
+		linhaPoligonalElement.appendChild(createCor(doc, linhaPoligonal.getCor()));
 	}
 
 	private static void createRetangulo(Document doc, Element figuraElement, Retangulo2D retangulo) {
@@ -89,7 +90,7 @@ public class FileWriter {
 		
 		retanguloElement.appendChild(createPonto(retangulo.vertice1, doc));
 		retanguloElement.appendChild(createPonto(retangulo.vertice2, doc));	
-		retanguloElement.appendChild(createCor(doc));
+		retanguloElement.appendChild(createCor(doc, retangulo.getCor()));
 	}
 
 
@@ -101,7 +102,7 @@ public class FileWriter {
 		Element raio = doc.createElement("Raio");
 		raio.appendChild(doc.createTextNode(((int) circulo.getRaio())+""));
 		circuloElement.appendChild(raio);
-		circuloElement.appendChild(createCor(doc));
+		circuloElement.appendChild(createCor(doc, circulo.getCor()));
 	}
 
 
@@ -111,7 +112,7 @@ public class FileWriter {
 		
 		retaElement.appendChild(createPonto(reta.p1, doc));
 		retaElement.appendChild(createPonto(reta.p2, doc));	
-		retaElement.appendChild(createCor(doc));
+		retaElement.appendChild(createCor(doc, reta.getCor()));
 	}
 	
 	
@@ -128,15 +129,15 @@ public class FileWriter {
 		return dot;
 	}
 	
-	private static Element createCor(Document doc) {
+	private static Element createCor(Document doc, Color corForm) {
 		Element cor = doc.createElement("Cor");
 		Element r = doc.createElement("R");
 		Element g = doc.createElement("G");
 		Element b = doc.createElement("B");
 		
-		r.appendChild(doc.createTextNode("0"));
-		g.appendChild(doc.createTextNode("0"));
-		b.appendChild(doc.createTextNode("0"));
+		r.appendChild(doc.createTextNode(corForm.getRed()+""));
+		g.appendChild(doc.createTextNode(corForm.getGreen()+""));
+		b.appendChild(doc.createTextNode(corForm.getBlue()+""));
 		
 		cor.appendChild(r);
 		cor.appendChild(g);

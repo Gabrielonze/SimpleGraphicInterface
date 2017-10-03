@@ -5,6 +5,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,8 +94,8 @@ class FileReader{
 					
 				}
 				
-				//TODO - COR????
-				linhasPoligonais.add(new LinhaPoligonal2D(pontos));
+				Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
+				linhasPoligonais.add(new LinhaPoligonal2D(pontos, cor));
 			
 			}
 		}
@@ -121,8 +123,8 @@ class FileReader{
 					
 				}
 				
-				//TODO - COR????
-				poligonos.add(new Poligono2D(pontos));
+				Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
+				poligonos.add(new Poligono2D(pontos, cor));
 			}
 		}
 	}
@@ -205,8 +207,8 @@ class FileReader{
 		int ponto2X = Conversor.relativeToPixel(p2x);
 		int ponto2Y = Conversor.relativeToPixel(p2y);
 		
-		//TODO - COR??????
-		retas.add(new Reta2D(ponto1X, ponto1Y, ponto2X, ponto2Y));
+		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
+		retas.add(new Reta2D(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
 	}
 	
 	private void createRetangulo(String p1x, String p1y, String p2x, String p2y, String corR, String corG, String corB) {
@@ -216,8 +218,8 @@ class FileReader{
 		int ponto2X = Conversor.relativeToPixel(p2x);
 		int ponto2Y = Conversor.relativeToPixel(p2y);
 		
-		//TODO - COR??????
-		retangulos.add(new Retangulo2D(ponto1X, ponto1Y, ponto2X, ponto2Y));
+		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
+		retangulos.add(new Retangulo2D(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
 	}
 	
 	
@@ -226,8 +228,8 @@ class FileReader{
 		int ponto1Y = Conversor.relativeToPixel(p1y);
 		int raio = Integer.parseInt(raioStr);
 		
-		//TODO - COR??????
-		circulos.add(new Circulo2D(ponto1X, ponto1Y, raio));
+		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
+		circulos.add(new Circulo2D(ponto1X, ponto1Y, raio, cor));
 	}
 }
 

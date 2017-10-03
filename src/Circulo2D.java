@@ -6,10 +6,10 @@ class Circulo2D extends Circulo{
     Color _cor;
     String _str;
 
-    Circulo2D(int x, int y, double raio, Color cor, String str){
+    Circulo2D(int x, int y, double raio, Color cor){
         super(x, y, raio);
         setCor(cor);
-        setStr(str);
+        setStr("");
     }
     
     public Circulo2D(int x, int y, int raio) {

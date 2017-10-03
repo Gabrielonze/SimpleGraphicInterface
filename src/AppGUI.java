@@ -22,6 +22,7 @@ class AppGUI extends JFrame {
 	private JButton jbPoligono = new JButton("Poligono");
 	private JButton jbCarregarDesenho = new JButton("Recarregar Desenho");
 	private JButton jbSalvarDesenho = new JButton("Salvar Desenho");
+	private JButton jbCor = new JButton("Trocar Cor");
 
 	public AppGUI(int larg, int alt) {
 		/**
@@ -42,6 +43,7 @@ class AppGUI extends JFrame {
 		barraComandos.add(jbPoligono);
 		barraComandos.add(jbCarregarDesenho);
 		barraComandos.add(jbSalvarDesenho);
+		barraComandos.add(jbCor);
 
 		add(barraComandos, BorderLayout.NORTH);                
 		add(areaDesenho, BorderLayout.CENTER);                
@@ -55,7 +57,8 @@ class AppGUI extends JFrame {
 		jbPoligono.addActionListener(eventos);
 		jbCarregarDesenho.addActionListener(eventos);
 		jbSalvarDesenho.addActionListener(eventos);
-
+		jbCor.addActionListener(eventos);
+		
 	}
 	
 	private class Eventos implements ActionListener{
@@ -76,11 +79,18 @@ class AppGUI extends JFrame {
 				loadFile();
 			} else if( event.getSource() == jbSalvarDesenho) {
 				saveFile();
+			} else if(event.getSource() == jbCor) {
+				changeColor();
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
 			
 		}
+	}
+	
+	private void changeColor() {
+		Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
+		areaDesenho.setCor(newColor);
 	}
 
 	
