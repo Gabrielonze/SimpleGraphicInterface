@@ -1,10 +1,13 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -21,6 +24,9 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	Color currentColor = Color.BLACK;
 	LinhaPoligonal2D lp = null;
 	Poligono2D po = null;
+	
+	private Image offScreenImage = null;
+	private Graphics offScreenGraphics = null;
 
 	public void setCor(Color cor) {
 		this.currentColor = cor;
@@ -110,7 +116,19 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 
 
 	public void paintComponent(Graphics g) {
-		desenharPrimitivos(g);
+		
+		final Dimension d = getSize();
+
+		if(offScreenImage == null) {
+			offScreenImage = createImage(d.width, d.height);
+			
+		}
+		offScreenGraphics = offScreenImage.getGraphics();
+		offScreenGraphics.setColor(Color.WHITE);
+		offScreenGraphics.fillRect(0, 0, d.width, d.height);
+	
+		desenharPrimitivos(offScreenGraphics);
+		g.drawImage(offScreenImage, 0, 0, null);
 	}
 
 	public void mousePressed(MouseEvent e) {
