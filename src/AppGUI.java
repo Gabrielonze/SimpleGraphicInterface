@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 class AppGUI extends JFrame {
 
@@ -23,6 +24,8 @@ class AppGUI extends JFrame {
 	private JButton jbCarregarDesenho = new JButton("Recarregar Desenho");
 	private JButton jbSalvarDesenho = new JButton("Salvar Desenho");
 	private JButton jbCor = new JButton("Trocar Cor");
+	private JButton jbLimparTela = new JButton("Limpar Tela");
+
 
 	public AppGUI(int larg, int alt) {
 		/**
@@ -44,6 +47,7 @@ class AppGUI extends JFrame {
 		barraComandos.add(jbCarregarDesenho);
 		barraComandos.add(jbSalvarDesenho);
 		barraComandos.add(jbCor);
+		barraComandos.add(jbLimparTela);
 
 		add(barraComandos, BorderLayout.NORTH);                
 		add(areaDesenho, BorderLayout.CENTER);                
@@ -58,6 +62,7 @@ class AppGUI extends JFrame {
 		jbCarregarDesenho.addActionListener(eventos);
 		jbSalvarDesenho.addActionListener(eventos);
 		jbCor.addActionListener(eventos);
+		jbLimparTela.addActionListener(eventos);
 		
 	}
 	
@@ -81,11 +86,23 @@ class AppGUI extends JFrame {
 				saveFile();
 			} else if(event.getSource() == jbCor) {
 				changeColor();
+			} else if(event.getSource() == jbLimparTela) {
+				limparTela();
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
 			
 		}
+	}
+	
+	private void limparTela() {
+		areaDesenho.setCirculos(new ArrayList<Circulo2D>());
+		areaDesenho.setRetangulos(new ArrayList<Retangulo2D>());
+		areaDesenho.setRetas(new ArrayList<Reta2D>());
+		areaDesenho.setLinhasPoligonais(new ArrayList<LinhaPoligonal2D>());
+		areaDesenho.setPoligonos(new ArrayList<Poligono2D>());
+
+		areaDesenho.repaint();
 	}
 	
 	private void changeColor() {
