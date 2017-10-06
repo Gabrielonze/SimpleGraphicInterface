@@ -226,7 +226,7 @@ class FileReader{
 	private void createCirculo(String p1x, String p1y, String raioStr, String corR, String corG, String corB) {
 		int ponto1X = Conversor.relativeToPixel(p1x);
 		int ponto1Y = Conversor.relativeToPixel(p1y);
-		int raio = Integer.parseInt(raioStr);
+		int raio = (int) Conversor.relativeToPixel(raioStr);
 		
 		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
 		circulos.add(new Circulo2D(ponto1X, ponto1Y, raio, cor));
