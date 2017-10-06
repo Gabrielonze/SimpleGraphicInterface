@@ -100,7 +100,7 @@ public class FileWriter {
 		
 		circuloElement.appendChild(createPonto(circulo.getCentro(), doc));
 		Element raio = doc.createElement("Raio");
-		raio.appendChild(doc.createTextNode(((int) circulo.getRaio())+""));
+		raio.appendChild(doc.createTextNode((Conversor.pixelToRelative(circulo.getRaio()))+""));
 		circuloElement.appendChild(raio);
 		circuloElement.appendChild(createCor(doc, circulo.getCor()));
 	}
