@@ -16,6 +16,10 @@ class AppGUI extends JFrame {
 	
 	// barra de 
 	private JToolBar barraComandos = new JToolBar();
+	private JToolBar barraComandosPrimitivos = new JToolBar();
+	
+	JPanel subPanel = new JPanel();
+	
 	private JButton jbRetas = new JButton("Retas");
 	private JButton jbCirculos = new JButton("Circulos");
 	private JButton jbRetangulos = new JButton("Retangulos");
@@ -25,6 +29,7 @@ class AppGUI extends JFrame {
 	private JButton jbSalvarDesenho = new JButton("Salvar Desenho");
 	private JButton jbCor = new JButton("Trocar Cor");
 	private JButton jbLimparTela = new JButton("Limpar Tela");
+	private JButton jbApagarForma = new JButton("Apagar Forma");
 
 
 	public AppGUI(int larg, int alt) {
@@ -37,19 +42,27 @@ class AppGUI extends JFrame {
 		setVisible(true);
 		getContentPane().setBackground(java.awt.Color.white);
 		setResizable(false);
+		
 
 		// Adicionando os componentes
-		barraComandos.add(jbRetas);
-		barraComandos.add(jbCirculos);
-		barraComandos.add(jbRetangulos);
-		barraComandos.add(jbLinhaPoligonal);
-		barraComandos.add(jbPoligono);
+		barraComandosPrimitivos.add(jbRetas);
+		barraComandosPrimitivos.add(jbCirculos);
+		barraComandosPrimitivos.add(jbRetangulos);
+		barraComandosPrimitivos.add(jbLinhaPoligonal);
+		barraComandosPrimitivos.add(jbPoligono);
+		
+		
 		barraComandos.add(jbCarregarDesenho);
 		barraComandos.add(jbSalvarDesenho);
 		barraComandos.add(jbCor);
 		barraComandos.add(jbLimparTela);
+		barraComandos.add(jbApagarForma);
+		
 
-		add(barraComandos, BorderLayout.NORTH);                
+		subPanel.add(barraComandos);  
+		subPanel.add(barraComandosPrimitivos);
+		subPanel.setLayout(new GridLayout(2, 1));
+		add(subPanel, BorderLayout.NORTH);
 		add(areaDesenho, BorderLayout.CENTER);                
 		add(msg, BorderLayout.SOUTH);
 
@@ -63,6 +76,7 @@ class AppGUI extends JFrame {
 		jbSalvarDesenho.addActionListener(eventos);
 		jbCor.addActionListener(eventos);
 		jbLimparTela.addActionListener(eventos);
+		jbApagarForma.addActionListener(eventos);
 		
 	}
 	
@@ -80,19 +94,25 @@ class AppGUI extends JFrame {
 				areaDesenho.setTipo(TiposPrimitivos.LINHA_POLIGONAL);
 			} else if (event.getSource() == jbPoligono){
 				areaDesenho.setTipo(TiposPrimitivos.POLIGONO);
-			} else if( event.getSource() == jbCarregarDesenho) {
+			} else if(event.getSource() == jbCarregarDesenho) {
 				loadFile();
-			} else if( event.getSource() == jbSalvarDesenho) {
+			} else if(event.getSource() == jbSalvarDesenho) {
 				saveFile();
 			} else if(event.getSource() == jbCor) {
 				changeColor();
 			} else if(event.getSource() == jbLimparTela) {
 				limparTela();
+			} else if(event.getSource() == jbApagarForma) {
+				apagarForma();
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
 			
 		}
+	}
+	
+	private void apagarForma() {
+		areaDesenho.setTipo(TiposPrimitivos.BORRACHA);
 	}
 	
 	private void limparTela() {
@@ -125,14 +145,12 @@ class AppGUI extends JFrame {
 			
 			if(fullLoad) {
 				System.out.println("Só imprimo depois de ler tudo");
-				areaDesenho.apagarTudo();
 				areaDesenho.setRetas(fr.getRetas());
 				areaDesenho.setRetangulos(fr.getRetangulos());
 				areaDesenho.setCirculos(fr.getCirculos());
 				areaDesenho.setLinhasPoligonais(fr.getLinhasPoligonais());
 				areaDesenho.setPoligonos(fr.getPoligonos());
 				
-				//TODO -> Checar se Windows consegue usar o repaint, se sim, apagar "apagarTudo"
 				areaDesenho.repaint();
 				
 			} else {
@@ -148,17 +166,18 @@ class AppGUI extends JFrame {
 		result.showSaveDialog(null);
             
         File targetFile = result.getSelectedFile();
-
-        if (! Conversor.fileExt(targetFile.getName()).equalsIgnoreCase("xml")) {
-        		targetFile = new File(targetFile.toString() + ".xml");
+        if(targetFile != null) {
+		    if (! Conversor.fileExt(targetFile.getName()).equalsIgnoreCase("xml")) {
+		    		targetFile = new File(targetFile.toString() + ".xml");
+		    }
+		    
+		    try {
+				targetFile.createNewFile();
+				FileWriter.write(targetFile, areaDesenho.getRetas(), areaDesenho.getCirculos(), areaDesenho.getRetangulos(), areaDesenho.getLinhasPoligonais(), areaDesenho.getPoligonos());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}    
         }
-        
-        try {
-			targetFile.createNewFile();
-			FileWriter.write(targetFile, areaDesenho.getRetas(), areaDesenho.getCirculos(), areaDesenho.getRetangulos(), areaDesenho.getLinhasPoligonais(), areaDesenho.getPoligonos());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 }

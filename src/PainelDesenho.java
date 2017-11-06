@@ -91,23 +91,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		this.tipo = tipo;
 		p1 = null;
 		p2 = null;
-		if (tipo == TiposPrimitivos.RETAS) {
-			msg.setText("Primitivo: RETA ");
-		}
-		else if (tipo == TiposPrimitivos.CIRCULOS) {
-			msg.setText("Primitivo: CIRCULO ");
-		} else if (tipo == TiposPrimitivos.RETANGULOS) {
-			msg.setText("Primitivo: RETANGULO ");
-		} else if(tipo == TiposPrimitivos.LINHA_POLIGONAL) {
-			msg.setText("Primitivo: LINHA POLIGONAL ");
-			lp = new LinhaPoligonal2D(new ArrayList<Ponto>(), currentColor);
-		} else if(tipo == TiposPrimitivos.POLIGONO) {
-			msg.setText("Primitivo: POLIGONO ");
-			po = new Poligono2D(new ArrayList<Ponto>(), currentColor);
-		}
-		else {
-			msg.setText("Primitivo: NENHUM ");
-		}
+		
+		msg.setText("Primitivo: "+tipo.name().replace("_", " "));
 	}
 
 	public TiposPrimitivos getTipo() {
@@ -144,7 +129,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			p1 = new Ponto2D(e.getX(), e.getY());
 			repaint();
 			
-		} else if (e.getButton() == 1) {
+		} else if (e.getButton() == 1 && tipo != TiposPrimitivos.BORRACHA) {
 			p1 = new Ponto2D(e.getX(), e.getY());
 			p2 = null;
 		} else if (e.getButton() == 3 && tipo == TiposPrimitivos.LINHA_POLIGONAL) {
@@ -159,6 +144,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			poligonos.add(po);
 			po = new Poligono2D(new ArrayList<Ponto>(), currentColor);
 			repaint();
+		} else if (e.getButton() == 1 && tipo == TiposPrimitivos.BORRACHA) {
+			apagarForma(e.getX(), e.getY());
 		}
 	}
 
@@ -234,21 +221,13 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		
 		setBackground(java.awt.Color.white);
 	}
+	
+	public void apagarForma(int x, int y) {
+		System.out.println("Deleted: FORM in ("+ x + ", " + y + ")");
+	}
 
 	public void message(MouseEvent e){
-		if (tipo == TiposPrimitivos.RETAS) {
-			msg.setText("Primitivo: RETA (" + e.getX() + ", " + e.getY() + ")");
-		} else if (tipo == TiposPrimitivos.CIRCULOS) {
-			msg.setText("Primitivo: CIRCULO (" + e.getX() + ", " + e.getY() + ")");
-		} else if (tipo == TiposPrimitivos.RETANGULOS) {
-			msg.setText("Primitivo: RETANGULO (" + e.getX() + ", " + e.getY() + ")");
-		} else if(tipo == TiposPrimitivos.LINHA_POLIGONAL) {
-			msg.setText("Primitivo: LINHA POLIGONAL (" + e.getX() + ", " + e.getY() + ")");
-		} else if(tipo == TiposPrimitivos.POLIGONO) {
-			msg.setText("Primitivo: POLIGONO (" + e.getX() + ", " + e.getY() + ")");
-		} else {
-			msg.setText("Primitivo: NENHUM (" + e.getX() + ", " + e.getY() + ")");
-		}
+		msg.setText("Primitivo: "+tipo.name().replace("_", " ")+" (" + e.getX() + ", " + e.getY() + ")");
 	}
 
 	public void desenharPrimitivos(Graphics g) {
@@ -293,14 +272,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			}
 		}
 		
-		
-		
 		repaintAll(g);
 
-	}
-	
-	public void apagarTudo() {
-		//TODO -> DO
 	}
 
 }
