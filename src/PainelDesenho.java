@@ -93,6 +93,13 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		p2 = null;
 		
 		msg.setText("Primitivo: "+tipo.name().replace("_", " "));
+		
+		if(this.tipo == TiposPrimitivos.LINHA_POLIGONAL) {
+			lp = new LinhaPoligonal2D(new ArrayList<Ponto>(), currentColor);
+		} else if(tipo == TiposPrimitivos.POLIGONO) {
+			po = new Poligono2D(new ArrayList<Ponto>(), currentColor);		
+		}
+		
 	}
 
 	public TiposPrimitivos getTipo() {
@@ -118,7 +125,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 
 	public void mousePressed(MouseEvent e) {
 		if(e.getButton() == 1 && tipo == TiposPrimitivos.LINHA_POLIGONAL) {
-			lp.addPonto(new Ponto( (double)e.getX(), (double)e.getY()));
+			Ponto po = new Ponto((double)e.getX(), (double)e.getY());
+			lp.addPonto(po);
 			
 			p1 = new Ponto2D(e.getX(), e.getY());
 			repaint();

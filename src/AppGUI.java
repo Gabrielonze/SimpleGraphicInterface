@@ -16,15 +16,15 @@ class AppGUI extends JFrame {
 	
 	// barra de 
 	private JToolBar barraComandos = new JToolBar();
-	private JToolBar barraComandosPrimitivos = new JToolBar();
+	private JToolBar barraComandosPrimitivos = new JToolBar(JToolBar.VERTICAL);
 	
-	JPanel subPanel = new JPanel();
+	//JPanel subPanel = new JPanel();
 	
-	private JButton jbRetas = new JButton("Retas");
-	private JButton jbCirculos = new JButton("Circulos");
-	private JButton jbRetangulos = new JButton("Retangulos");
-	private JButton jbLinhaPoligonal = new JButton("Linha Poligonal");
-	private JButton jbPoligono = new JButton("Poligono");
+	private JButton jbRetas = new JButton("\u2571");
+	private JButton jbCirculos = new JButton("\u2d54");
+	private JButton jbRetangulos = new JButton("\u25fb");
+	private JButton jbLinhaPoligonal = new JButton("\u29d9");
+	private JButton jbPoligono = new JButton("\u2394");
 	private JButton jbCarregarDesenho = new JButton("Recarregar Desenho");
 	private JButton jbSalvarDesenho = new JButton("Salvar Desenho");
 	private JButton jbCor = new JButton("Trocar Cor");
@@ -43,29 +43,41 @@ class AppGUI extends JFrame {
 		getContentPane().setBackground(java.awt.Color.white);
 		setResizable(false);
 		
+		
 
+		jbRetas.setFont(new Font("Arial", Font.BOLD, 20));
+		jbCirculos.setFont(new Font("Arial", Font.BOLD, 20));
+		jbRetangulos.setFont(new Font("Arial", Font.BOLD, 20));
+		jbLinhaPoligonal.setFont(new Font("Arial", Font.BOLD, 20));
+		jbPoligono.setFont(new Font("Arial", Font.BOLD, 20));
+		
+		
+		
+		
 		// Adicionando os componentes
 		barraComandosPrimitivos.add(jbRetas);
 		barraComandosPrimitivos.add(jbCirculos);
 		barraComandosPrimitivos.add(jbRetangulos);
 		barraComandosPrimitivos.add(jbLinhaPoligonal);
 		barraComandosPrimitivos.add(jbPoligono);
-		
+		barraComandosPrimitivos.setFloatable(false);
 		
 		barraComandos.add(jbCarregarDesenho);
 		barraComandos.add(jbSalvarDesenho);
 		barraComandos.add(jbCor);
 		barraComandos.add(jbLimparTela);
 		barraComandos.add(jbApagarForma);
-		
+		barraComandos.setFloatable(false);
+		jbRetas.setSize(300, 300);
 
-		subPanel.add(barraComandos);  
-		subPanel.add(barraComandosPrimitivos);
-		subPanel.setLayout(new GridLayout(2, 1));
-		add(subPanel, BorderLayout.NORTH);
+		add(barraComandos, BorderLayout.NORTH);
+		add(barraComandosPrimitivos, BorderLayout.WEST);
 		add(areaDesenho, BorderLayout.CENTER);                
 		add(msg, BorderLayout.SOUTH);
 
+		
+		
+		
 		Eventos eventos = new Eventos();
 		jbRetas.addActionListener(eventos);
 		jbCirculos.addActionListener(eventos);
