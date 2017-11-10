@@ -10,7 +10,7 @@ import java.util.ArrayList;
 class AppGUI extends JFrame {
 
 	private JLabel msg = new JLabel("Msg: ");
-	TiposPrimitivos tipo = TiposPrimitivos.NENHUM;
+	ModosDeTrabalho tipo = ModosDeTrabalho.NENHUM;
 
 	private PainelDesenho areaDesenho = new PainelDesenho(msg, tipo);
 	
@@ -29,7 +29,7 @@ class AppGUI extends JFrame {
 	private JButton jbSalvarDesenho = new JButton("Salvar Desenho");
 	private JButton jbCor = new JButton("Trocar Cor");
 	private JButton jbLimparTela = new JButton("Limpar Tela");
-	private JButton jbApagarForma = new JButton("Apagar Forma");
+	private JButton jbSelecionarForma = new JButton("\u2316");
 
 
 	public AppGUI(int larg, int alt) {
@@ -44,7 +44,7 @@ class AppGUI extends JFrame {
 		setResizable(false);
 		
 		
-
+		jbSelecionarForma.setFont(new Font("Arial", Font.BOLD, 20));
 		jbRetas.setFont(new Font("Arial", Font.BOLD, 20));
 		jbCirculos.setFont(new Font("Arial", Font.BOLD, 20));
 		jbRetangulos.setFont(new Font("Arial", Font.BOLD, 20));
@@ -55,6 +55,8 @@ class AppGUI extends JFrame {
 		
 		
 		// Adicionando os componentes
+
+		barraComandosPrimitivos.add(jbSelecionarForma);
 		barraComandosPrimitivos.add(jbRetas);
 		barraComandosPrimitivos.add(jbCirculos);
 		barraComandosPrimitivos.add(jbRetangulos);
@@ -66,7 +68,6 @@ class AppGUI extends JFrame {
 		barraComandos.add(jbSalvarDesenho);
 		barraComandos.add(jbCor);
 		barraComandos.add(jbLimparTela);
-		barraComandos.add(jbApagarForma);
 		barraComandos.setFloatable(false);
 		jbRetas.setSize(300, 300);
 
@@ -88,7 +89,7 @@ class AppGUI extends JFrame {
 		jbSalvarDesenho.addActionListener(eventos);
 		jbCor.addActionListener(eventos);
 		jbLimparTela.addActionListener(eventos);
-		jbApagarForma.addActionListener(eventos);
+		jbSelecionarForma.addActionListener(eventos);
 		
 	}
 	
@@ -97,15 +98,15 @@ class AppGUI extends JFrame {
 		public void actionPerformed(ActionEvent event) {            
 
 			if (event.getSource() == jbRetas){
-				areaDesenho.setTipo(TiposPrimitivos.RETAS);
+				areaDesenho.setTipo(ModosDeTrabalho.RETAS);
 			} else if (event.getSource() == jbCirculos){
-				areaDesenho.setTipo(TiposPrimitivos.CIRCULOS);
+				areaDesenho.setTipo(ModosDeTrabalho.CIRCULOS);
 			} else if (event.getSource() == jbRetangulos){
-				areaDesenho.setTipo(TiposPrimitivos.RETANGULOS);
+				areaDesenho.setTipo(ModosDeTrabalho.RETANGULOS);
 			} else if (event.getSource() == jbLinhaPoligonal){
-				areaDesenho.setTipo(TiposPrimitivos.LINHA_POLIGONAL);
+				areaDesenho.setTipo(ModosDeTrabalho.LINHA_POLIGONAL);
 			} else if (event.getSource() == jbPoligono){
-				areaDesenho.setTipo(TiposPrimitivos.POLIGONO);
+				areaDesenho.setTipo(ModosDeTrabalho.POLIGONO);
 			} else if(event.getSource() == jbCarregarDesenho) {
 				loadFile();
 			} else if(event.getSource() == jbSalvarDesenho) {
@@ -114,8 +115,8 @@ class AppGUI extends JFrame {
 				changeColor();
 			} else if(event.getSource() == jbLimparTela) {
 				limparTela();
-			} else if(event.getSource() == jbApagarForma) {
-				apagarForma();
+			} else if(event.getSource() == jbSelecionarForma) {
+				selecionarForma();
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
@@ -123,8 +124,8 @@ class AppGUI extends JFrame {
 		}
 	}
 	
-	private void apagarForma() {
-		areaDesenho.setTipo(TiposPrimitivos.BORRACHA);
+	private void selecionarForma() {
+		areaDesenho.setTipo(ModosDeTrabalho.SELECIONAR);
 	}
 	
 	private void limparTela() {
