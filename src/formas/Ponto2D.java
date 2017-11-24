@@ -1,8 +1,7 @@
+package formas;
 
 
-
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class Ponto2D extends Ponto {
    Color _cor;

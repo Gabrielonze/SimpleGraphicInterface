@@ -234,10 +234,14 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		System.out.println("Selected: FORM in ("+ x + ", " + y + ")");
 		boolean encontrouForma = false;
 		double margemDeErro = 5;
+		Object forma;
 		
 		for(Reta2D r : retas) {
-			if ( r.calculaDistanciaEntreRetaEPonto(new Ponto(x,y)) <= margemDeErro ) {
+			if ( pontoNaReta(r, new Ponto(x,y)) ) {
 				encontrouForma = true;
+				forma = r;
+				((Reta2D)forma).setCor(Color.RED);
+				repaint();
 				break;
 			}
 			
@@ -308,6 +312,13 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		
 		repaintAll(g);
 
+	}
+
+	private boolean pontoNaReta(Reta r, Ponto p){
+		int margemDeErro = 10;
+		return (r.calculaDistanciaEntreRetaEPonto(p) <= margemDeErro)
+				&& ((p.getX() >= r.p1.getX() && p.getX() <= r.p2.getX()) || (p.getX() >= r.p2.getX() && p.getX() <= r.p1.getX()))
+				&& ((p.getY() >= r.p1.getY() && p.getY() <= r.p2.getY()) || (p.getY() >= r.p2.getY() && p.getY() <= r.p1.getY()));
 	}
 
 }

@@ -1,3 +1,4 @@
+package formas;
 
 public class EquacaoDaReta {
 

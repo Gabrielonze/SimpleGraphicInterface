@@ -134,7 +134,6 @@ class AppGUI extends JFrame {
 		areaDesenho.setRetas(new ArrayList<Reta2D>());
 		areaDesenho.setLinhasPoligonais(new ArrayList<LinhaPoligonal2D>());
 		areaDesenho.setPoligonos(new ArrayList<Poligono2D>());
-
 		areaDesenho.repaint();
 	}
 	

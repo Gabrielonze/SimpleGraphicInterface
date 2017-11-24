@@ -1,3 +1,4 @@
+package formas;
 
 /*
 * Representa um ponto "matemático" com coordenadas x e y reais
@@ -8,17 +9,17 @@ public class Ponto {
     private double y;
     
     // Construtores
-    Ponto () {
+    Ponto() {
         this.x = 0;
         this.y = 0;
     }
 
-    Ponto (double x, double y) {
+    Ponto(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    Ponto (Ponto p) {
+    Ponto(Ponto p) {
         this.x = p.getX();
         this.y = p.getY();
     }
