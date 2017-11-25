@@ -1,6 +1,8 @@
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
+
+import formas.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
@@ -13,11 +15,10 @@ import java.util.List;
 
 class FileReader{
 	
-	private List<Reta2D> retas = new ArrayList<Reta2D>();
-	private List<Circulo2D> circulos = new ArrayList<Circulo2D>();
-	private List<Retangulo2D> retangulos = new ArrayList<Retangulo2D>();
-	private List<LinhaPoligonal2D> linhasPoligonais = new ArrayList<LinhaPoligonal2D>();
-	private List<Poligono2D> poligonos = new ArrayList<Poligono2D>();
+	private List<Reta> retas = new ArrayList<Reta>();
+	private List<Circulo> circulos = new ArrayList<Circulo>();
+	private List<Retangulo> retangulos = new ArrayList<Retangulo>();
+	private List<LinhaPoligonal> linhasPoligonais = new ArrayList<LinhaPoligonal>();
 
 	public boolean readFile(String xmlPath){
 		try {
@@ -38,8 +39,8 @@ class FileReader{
 				buildRetas(doc.getElementsByTagName("Reta"));
 				buildRetangulos(doc.getElementsByTagName("Retangulo"));
 				buildCirculos(doc.getElementsByTagName("Circulo"));
-				buildLinhasPoligonais(doc.getElementsByTagName("LinhaPoligonal"));
-				buildPoligonos(doc.getElementsByTagName("Poligono"));
+				buildLinhasPoligonais(doc.getElementsByTagName("LinhaPoligonal"), false);
+                buildLinhasPoligonais(doc.getElementsByTagName("Poligono"), true);
 				
 		    } else {
 		    		JOptionPane.showMessageDialog(null, "Por favor, Selecione um XML");
@@ -52,27 +53,23 @@ class FileReader{
 		}
 	}
 
-	public List<Reta2D> getRetas() {
+	public List<Reta> getRetas() {
 		return retas;
 	}
 
-	public List<Circulo2D> getCirculos() {
+	public List<Circulo> getCirculos() {
 		return circulos;
 	}
 
-	public List<Retangulo2D> getRetangulos() {
+	public List<Retangulo> getRetangulos() {
 		return retangulos;
 	}
 	
-	public List<LinhaPoligonal2D> getLinhasPoligonais() {
+	public List<LinhaPoligonal> getLinhasPoligonais() {
 		return linhasPoligonais;
 	}
-
-	public List<Poligono2D> getPoligonos() {
-		return poligonos;
-	}
 	
-	private void buildLinhasPoligonais(NodeList nList) {
+	private void buildLinhasPoligonais(NodeList nList, Boolean fechado) {
 		for (int temp = 0; temp < nList.getLength(); temp++) {
 			Node nNode = nList.item(temp);
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -95,36 +92,8 @@ class FileReader{
 				}
 				
 				Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
-				linhasPoligonais.add(new LinhaPoligonal2D(pontos, cor));
+				linhasPoligonais.add(new LinhaPoligonal(pontos, cor, fechado));
 			
-			}
-		}
-	}
-	
-	private void buildPoligonos(NodeList nList) {
-		for (int temp = 0; temp < nList.getLength(); temp++) {
-			Node nNode = nList.item(temp);
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) nNode;
-				List<Ponto> pontos = new ArrayList<Ponto>();
-				
-				Element elementCor = (Element) eElement.getElementsByTagName("Cor").item(0);
-				String corR = elementCor.getElementsByTagName("R").item(0).getTextContent();
-				String corG = elementCor.getElementsByTagName("G").item(0).getTextContent();
-				String corB = elementCor.getElementsByTagName("B").item(0).getTextContent();
-				
-				NodeList nl = eElement.getElementsByTagName("Ponto");
-				for(int i = 0; i < nl.getLength();  i++) {
-					Element elementPonto = (Element) nl.item(i);
-					
-					String p1x = elementPonto.getElementsByTagName("x").item(0).getTextContent();
-					String p1y = elementPonto.getElementsByTagName("y").item(0).getTextContent();
-					pontos.add(new Ponto((double) Conversor.relativeToPixel(p1x), (double) Conversor.relativeToPixel(p1y)));
-					
-				}
-				
-				Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
-				poligonos.add(new Poligono2D(pontos, cor));
 			}
 		}
 	}
@@ -208,7 +177,7 @@ class FileReader{
 		int ponto2Y = Conversor.relativeToPixel(p2y);
 		
 		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
-		retas.add(new Reta2D(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
+		retas.add(new Reta(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
 	}
 	
 	private void createRetangulo(String p1x, String p1y, String p2x, String p2y, String corR, String corG, String corB) {
@@ -219,7 +188,7 @@ class FileReader{
 		int ponto2Y = Conversor.relativeToPixel(p2y);
 		
 		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
-		retangulos.add(new Retangulo2D(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
+		retangulos.add(new Retangulo(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
 	}
 	
 	
@@ -229,7 +198,7 @@ class FileReader{
 		int raio = (int) Conversor.relativeToPixel(raioStr);
 		
 		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
-		circulos.add(new Circulo2D(ponto1X, ponto1Y, raio, cor));
+		circulos.add(new Circulo(ponto1X, ponto1Y, raio, cor));
 	}
 }
 

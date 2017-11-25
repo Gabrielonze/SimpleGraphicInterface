@@ -20,13 +20,13 @@ public class Circulo extends Forma {
        this._cor = Color.BLACK;
    }
 
-    Circulo(int x, int y, double raio, Color cor){
+    public Circulo(int x, int y, double raio, Color cor){
         setCentro(new Ponto(x, y));
         setRaio(raio);
         this._cor = cor;
     }
 
-    Circulo(Ponto c, double raio, Color cor){
+    public Circulo(Ponto c, double raio, Color cor){
         setCentro(new Ponto(c));
         setRaio(raio);
         this._cor = cor;
@@ -41,10 +41,10 @@ public class Circulo extends Forma {
       _centro = c;
    }
    
-   Ponto getCentro(){
+   public Ponto getCentro(){
       return _centro;
    }
-   double getRaio(){
+   public double getRaio(){
       return _raio;
    }
 

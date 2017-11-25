@@ -1,3 +1,5 @@
+import formas.*;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,70 +16,57 @@ import javax.swing.JPanel;
 public class PainelDesenho extends JPanel implements MouseListener, MouseMotionListener {
 	JLabel msg;
 	ModosDeTrabalho tipo;
-	Ponto2D p1;
-	Ponto2D p2, oldP2;
-	List<Reta2D> retas = new ArrayList<Reta2D>();
-	List<Circulo2D> circulos = new ArrayList<Circulo2D>();
-	List<Retangulo2D> retangulos = new ArrayList<Retangulo2D>();
-	List<LinhaPoligonal2D> linhasPoligonais = new ArrayList<LinhaPoligonal2D>();
-	List<Poligono2D> poligonos = new ArrayList<Poligono2D>();
+	Ponto p1;
+	Ponto p2, oldP2;
+	List<Reta> retas = new ArrayList<Reta>();
+	List<Circulo> circulos = new ArrayList<Circulo>();
+	List<Retangulo> retangulos = new ArrayList<Retangulo>();
+	List<LinhaPoligonal> linhasPoligonais = new ArrayList<LinhaPoligonal>();
 	Color currentColor = Color.BLACK;
-	LinhaPoligonal2D lp = null;
-	Poligono2D po = null;
+	LinhaPoligonal lp = null;
 	
 	private Image offScreenImage = null;
 	private Graphics offScreenGraphics = null;
 
 	public void setCor(Color cor) {
 		this.currentColor = cor;
-		
-		if(po != null) {
-			po.setCor(cor);
-		}
+
 		if(lp != null) {
-			lp.setCor(cor);
+			lp.set_cor(cor);
 		}
 				
 	}
 	
-	public void setRetas(List<Reta2D> retas) {
+	public void setRetas(List<Reta> retas) {
 		this.retas = retas;
 	}
 
-	public void setCirculos(List<Circulo2D> circulos) {
+	public void setCirculos(List<Circulo> circulos) {
 		this.circulos = circulos;
 	}
 	
-	public void setRetangulos(List<Retangulo2D> retangulos) {
+	public void setRetangulos(List<Retangulo> retangulos) {
 		this.retangulos = retangulos;
 	}
 	
-	public void setLinhasPoligonais(List<LinhaPoligonal2D> linhasPoligonais) {
+	public void setLinhasPoligonais(List<LinhaPoligonal> linhasPoligonais) {
 		this.linhasPoligonais = linhasPoligonais;
 	}
-	
-	public void setPoligonos(List<Poligono2D> poligonos) {
-		this.poligonos = poligonos;
-	}
 
-	public List<Reta2D> getRetas() {
+	public List<Reta> getRetas() {
 		return retas;
 	}
 
-	public List<Circulo2D> getCirculos() {
+	public List<Circulo> getCirculos() {
 		return circulos;
 	}
 
-	public List<Retangulo2D> getRetangulos() {
+	public List<Retangulo> getRetangulos() {
 		return retangulos;
 	}
 	
-	public List<LinhaPoligonal2D> getLinhasPoligonais() {
+	public List<LinhaPoligonal> getLinhasPoligonais() {
 		return linhasPoligonais;
-	}
-
-	public List<Poligono2D> getPoligonos() {
-		return poligonos;
 	}
 
 	public PainelDesenho(JLabel msg, ModosDeTrabalho tipo) {
@@ -95,11 +84,9 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		msg.setText("Primitivo: "+tipo.name().replace("_", " "));
 		
 		if(this.tipo == ModosDeTrabalho.LINHA_POLIGONAL) {
-			lp = new LinhaPoligonal2D(new ArrayList<Ponto>(), currentColor);
-		} else if(tipo == ModosDeTrabalho.POLIGONO) {
-			po = new Poligono2D(new ArrayList<Ponto>(), currentColor);		
+			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
 		}
-		
+
 	}
 
 	public ModosDeTrabalho getTipo() {
@@ -128,29 +115,24 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			Ponto po = new Ponto((double)e.getX(), (double)e.getY());
 			lp.addPonto(po);
 			
-			p1 = new Ponto2D(e.getX(), e.getY());
-			repaint();
-			
-		} else if(e.getButton() == 1 && tipo == ModosDeTrabalho.POLIGONO) {
-			po.addPonto(new Ponto( (double)e.getX(), (double)e.getY()));
-			
-			p1 = new Ponto2D(e.getX(), e.getY());
+			p1 = new Ponto(e.getX(), e.getY());
 			repaint();
 			
 		} else if (e.getButton() == 1 && tipo != ModosDeTrabalho.SELECIONAR) {
-			p1 = new Ponto2D(e.getX(), e.getY());
+			p1 = new Ponto(e.getX(), e.getY());
 			p2 = null;
 		} else if (e.getButton() == 3 && tipo == ModosDeTrabalho.LINHA_POLIGONAL) {
 			p1 = null;
 			p2 = null;
 			linhasPoligonais.add(lp);
-			lp = new LinhaPoligonal2D(new ArrayList<Ponto>(), currentColor);
+			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
 			repaint();
 		} else if (e.getButton() == 3 && tipo == ModosDeTrabalho.POLIGONO) {
 			p1 = null;
 			p2 = null;
-			poligonos.add(po);
-			po = new Poligono2D(new ArrayList<Ponto>(), currentColor);
+			lp.setPoligono_fechado(true);
+			linhasPoligonais.add(lp);
+			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
 			repaint();
 		} else if (e.getButton() == 1 && tipo == ModosDeTrabalho.SELECIONAR) {
 			selecionarForma(e.getX(), e.getY());
@@ -160,12 +142,12 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	public void mouseReleased(MouseEvent e) {
 
 		if (tipo == ModosDeTrabalho.RETAS && p1 != null && p2 != null) {
-			retas.add(new Reta2D(p1, p2, currentColor));
+			retas.add(new Reta(p1, p2, currentColor));
 		}
 		else if (tipo == ModosDeTrabalho.CIRCULOS && p1 != null && p2 != null) {
-			circulos.add(new Circulo2D(p1, p2.calcularDistancia(p1), currentColor));
+			circulos.add(new Circulo(p1, p2.calcularDistancia(p1), currentColor));
 		} else if (tipo == ModosDeTrabalho.RETANGULOS && p1 != null && p2 != null) {
-			retangulos.add(new Retangulo2D(p1, p2, currentColor));
+			retangulos.add(new Retangulo(p1, p2, currentColor));
 		}
 		
 		if(tipo != ModosDeTrabalho.LINHA_POLIGONAL && tipo != ModosDeTrabalho.POLIGONO) {
@@ -179,7 +161,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		if(tipo == ModosDeTrabalho.LINHA_POLIGONAL || tipo == ModosDeTrabalho.POLIGONO) {
 			if(p1 != null) {
 				oldP2 = p2;
-				p2 = new Ponto2D(e.getX(), e.getY());
+				p2 = new Ponto(e.getX(), e.getY());
 				repaint();
 			}
 			
@@ -198,33 +180,27 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		message(e);
 		if(tipo != ModosDeTrabalho.LINHA_POLIGONAL && tipo != ModosDeTrabalho.POLIGONO) {
 			oldP2 = p2;
-			p2 = new Ponto2D(e.getX(), e.getY());
+			p2 = new Ponto(e.getX(), e.getY());
 			repaint();
 		}
 	}
 
 	public void repaintAll(Graphics g) {
-		for(Reta2D r : retas) {
-			r.desenharReta(g);
+		for(Reta r : retas) {
+			r.desenhar(g);
 		}
-		for(Circulo2D c : circulos) {
-			c.desenharCirculoPolar(g);
+		for(Circulo c : circulos) {
+			c.desenhar(g);
 		}
-		for(Retangulo2D c : retangulos) {
-			c.desenharRetangulo(g);
+		for(Retangulo c : retangulos) {
+			c.desenhar(g);
 		}
-		for(LinhaPoligonal2D c : linhasPoligonais) {
-			c.desenharLinhaPoligonal(g);
+		for(LinhaPoligonal c : linhasPoligonais) {
+			c.desenhar(g);
 		}
-		for(Poligono2D c : poligonos) {
-			c.desenharPoligono(g, true);
-		}
-		
+
 		if(lp != null) {
-			lp.desenharLinhaPoligonal(g);
-		}
-		if(po != null) {
-			po.desenharPoligono(g, false);
+			lp.desenhar(g);
 		}
 		
 		setBackground(java.awt.Color.white);
@@ -236,11 +212,11 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		double margemDeErro = 5;
 		Object forma;
 		
-		for(Reta2D r : retas) {
+		for(Reta r : retas) {
 			if ( pontoNaReta(r, new Ponto(x,y)) ) {
 				encontrouForma = true;
 				forma = r;
-				((Reta2D)forma).setCor(Color.RED);
+				((Reta)forma).set_cor(Color.RED);
 				repaint();
 				break;
 			}
@@ -248,16 +224,16 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		}
 		
 		System.out.println(encontrouForma);
-		/*for(Circulo2D c : circulos) {
+		/*for(Circulo c : circulos) {
 			
 		}
-		for(Retangulo2D c : retangulos) {
+		for(Retangulo c : retangulos) {
 			
 		}
-		for(LinhaPoligonal2D c : linhasPoligonais) {
+		for(LinhaPoligonal c : linhasPoligonais) {
 
 		}
-		for(Poligono2D c : poligonos) {
+		for(Poligono c : poligonos) {
 
 		}*/
 		
@@ -272,39 +248,39 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 
 		if ((tipo == ModosDeTrabalho.RETAS || tipo == ModosDeTrabalho.LINHA_POLIGONAL || tipo == ModosDeTrabalho.POLIGONO) && (p1 != null) && (p2 != null)) {
 
-			Reta2D rOld = null;
+			Reta rOld = null;
 			if(oldP2 != null) {
-				rOld = new Reta2D(p1, oldP2, Color.WHITE);
-				rOld.desenharReta(g);
+				rOld = new Reta(p1, oldP2, Color.WHITE);
+				rOld.desenhar(g);
 			}
 
-			Reta2D r = new Reta2D(p1, p2, currentColor);
-			r.desenharReta(g);
+			Reta r = new Reta(p1, p2, currentColor);
+			r.desenhar(g);
 		}
 
 		if ((tipo == ModosDeTrabalho.CIRCULOS) && (p1 != null) && (p2 != null)) {
-			Circulo2D r = new Circulo2D(p1, p2.calcularDistancia(p1), currentColor);
+			Circulo r = new Circulo(p1, p2.calcularDistancia(p1), currentColor);
 
-			Circulo2D rOld = null; 
+			Circulo rOld = null;
 			if(oldP2 != null) {
-				rOld = new Circulo2D(p1, oldP2.calcularDistancia(p1), Color.WHITE);
-				rOld.desenharCirculoPolar(g);
+				rOld = new Circulo(p1, oldP2.calcularDistancia(p1), Color.WHITE);
+				rOld.desenhar(g);
 			}
 			
-			r.desenharCirculoPolar(g);
+			r.desenhar(g);
 		}
 		
 		if ((tipo == ModosDeTrabalho.RETANGULOS) && (p1 != null) && (p2 != null)) {
-			Retangulo2D r = new Retangulo2D(p1, p2, currentColor);
+			Retangulo r = new Retangulo(p1, p2, currentColor);
 
-			Retangulo2D rOld = null; 
+			Retangulo rOld = null;
 			if(oldP2 != null) {
-				rOld = new Retangulo2D(p1, oldP2, Color.WHITE);
-				rOld.desenharRetangulo(g);
+				rOld = new Retangulo(p1, oldP2, Color.WHITE);
+				rOld.desenhar(g);
 			}
 			
 			try {
-				r.desenharRetangulo(g);
+				r.desenhar(g);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -317,8 +293,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	private boolean pontoNaReta(Reta r, Ponto p){
 		int margemDeErro = 10;
 		return (r.calculaDistanciaEntreRetaEPonto(p) <= margemDeErro)
-				&& ((p.getX() >= r.p1.getX() && p.getX() <= r.p2.getX()) || (p.getX() >= r.p2.getX() && p.getX() <= r.p1.getX()))
-				&& ((p.getY() >= r.p1.getY() && p.getY() <= r.p2.getY()) || (p.getY() >= r.p2.getY() && p.getY() <= r.p1.getY()));
+				&& ((p.getX() >= r.getP1().getX() && p.getX() <= r.getP2().getX()) || (p.getX() >= r.getP2().getX() && p.getX() <= r.getP1().getX()))
+				&& ((p.getY() >= r.getP1().getY() && p.getY() <= r.getP2().getY()) || (p.getY() >= r.getP2().getY() && p.getY() <= r.getP1().getY()));
 	}
 
 }

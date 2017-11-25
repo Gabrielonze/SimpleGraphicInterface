@@ -14,12 +14,12 @@ public class Ponto {
         this.y = 0;
     }
 
-    Ponto(double x, double y) {
+    public Ponto(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    Ponto(Ponto p) {
+    public Ponto(Ponto p) {
         this.x = p.getX();
         this.y = p.getY();
     }

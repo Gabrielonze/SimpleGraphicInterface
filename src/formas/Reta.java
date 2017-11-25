@@ -23,7 +23,7 @@ public class Reta extends Forma{
         this._cor = Color.BLACK;
     }
 
-    Reta(int x1, int y1, int x2, int y2, Color color){
+    public Reta(int x1, int y1, int x2, int y2, Color color){
         setP1(new Ponto(x1, y1));
         setP2(new Ponto(x2, y2));
         this.eq = new EquacaoDaReta(this.p1, this.p2);
@@ -31,7 +31,7 @@ public class Reta extends Forma{
 
     }
 
-    Reta(Ponto p1, Ponto p2, Color color){
+    public Reta(Ponto p1, Ponto p2, Color color){
         setP1(new Ponto(p1));
         setP2(new Ponto(p2));
         eq = new EquacaoDaReta(this.p1, this.p2);

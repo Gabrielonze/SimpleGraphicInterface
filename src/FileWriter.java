@@ -10,12 +10,14 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import formas.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class FileWriter {
 
-	public static void write(File file, List<Reta2D> retas, List<Circulo2D> circulos, List<Retangulo2D> retangulos, List<LinhaPoligonal2D> linhasPoligonais, List<Poligono2D> poligonos) {
+	public static void write(File file, List<Reta> retas, List<Circulo> circulos, List<Retangulo> retangulos, List<LinhaPoligonal> linhasPoligonais) {
 
 	  try {
 
@@ -27,24 +29,20 @@ public class FileWriter {
 		Element figuraElement = doc.createElement("Figura");
 		doc.appendChild(figuraElement);
 
-		for (Reta2D reta : retas) {
+		for (Reta reta : retas) {
 			createReta(doc, figuraElement, reta);	
 		}
 		
-		for (Circulo2D circulo : circulos) {
-			createCirculo(doc, figuraElement, circulo);	
+		for (Circulo circulo : circulos) {
+			createCirculo(doc, figuraElement, circulo);
 		}
 		
-		for (Retangulo2D retangulo : retangulos) {
+		for (Retangulo retangulo : retangulos) {
 			createRetangulo(doc, figuraElement, retangulo);	
 		}
 		
-		for(LinhaPoligonal2D linhaPoligonal : linhasPoligonais) {
+		for(LinhaPoligonal linhaPoligonal : linhasPoligonais) {
 			createLinhaPoligonal(doc, figuraElement, linhaPoligonal);
-		}
-		
-		for(Poligono2D poligono : poligonos) {
-			createPoligono(doc, figuraElement, poligono);
 		}
 
 		// write the content into xml file
@@ -54,47 +52,41 @@ public class FileWriter {
 		StreamResult result = new StreamResult(file);
 		transformer.transform(source, result);
 
-	  } catch (ParserConfigurationException pce) {
-		pce.printStackTrace();
-	  } catch (TransformerException tfe) {
+	  } catch (Exception tfe) {
 		tfe.printStackTrace();
 	  }
 	}
 
+	private static void createLinhaPoligonal(Document doc, Element figuraElement, LinhaPoligonal linhaPoligonal) {
+		String tagName;
 
-	private static void createPoligono(Document doc, Element figuraElement, Poligono2D poligono) {
-		Element poligonoElement = doc.createElement("Poligono");
-		figuraElement.appendChild(poligonoElement);
-		
-		for(Ponto p : poligono.getPontos()) {
-			poligonoElement.appendChild(createPonto(p, doc));
-		}
-		poligonoElement.appendChild(createCor(doc, poligono.getCor()));
-	}
+		if(linhaPoligonal.getPoligonoFechado()){
+            tagName = "Poligono";
+        } else {
+		    tagName = "LinhaPoligonal";
+        }
 
 
-	private static void createLinhaPoligonal(Document doc, Element figuraElement, LinhaPoligonal2D linhaPoligonal) {
-		
-		Element linhaPoligonalElement = doc.createElement("LinhaPoligonal");
+		Element linhaPoligonalElement = doc.createElement(tagName);
 		figuraElement.appendChild(linhaPoligonalElement);
 		
 		for(Ponto p : linhaPoligonal.getPontos()) {
 			linhaPoligonalElement.appendChild(createPonto(p, doc));
 		}
-		linhaPoligonalElement.appendChild(createCor(doc, linhaPoligonal.getCor()));
+		linhaPoligonalElement.appendChild(createCor(doc, linhaPoligonal.get_cor()));
 	}
 
-	private static void createRetangulo(Document doc, Element figuraElement, Retangulo2D retangulo) {
+	private static void createRetangulo(Document doc, Element figuraElement, Retangulo retangulo) {
 		Element retanguloElement = doc.createElement("Retangulo");
 		figuraElement.appendChild(retanguloElement);
 		
-		retanguloElement.appendChild(createPonto(retangulo.vertice1, doc));
-		retanguloElement.appendChild(createPonto(retangulo.vertice2, doc));	
-		retanguloElement.appendChild(createCor(doc, retangulo.getCor()));
+		retanguloElement.appendChild(createPonto(retangulo.getVertice1(), doc));
+		retanguloElement.appendChild(createPonto(retangulo.getVertice2(), doc));
+		retanguloElement.appendChild(createCor(doc, retangulo.get_cor()));
 	}
 
 
-	private static void createCirculo(Document doc, Element figuraElement, Circulo2D circulo) {
+	private static void createCirculo(Document doc, Element figuraElement, Circulo circulo) {
 		Element circuloElement = doc.createElement("Circulo");
 		figuraElement.appendChild(circuloElement);
 		
@@ -102,17 +94,17 @@ public class FileWriter {
 		Element raio = doc.createElement("Raio");
 		raio.appendChild(doc.createTextNode((Conversor.pixelToRelative(circulo.getRaio()))+""));
 		circuloElement.appendChild(raio);
-		circuloElement.appendChild(createCor(doc, circulo.getCor()));
+		circuloElement.appendChild(createCor(doc, circulo.get_cor()));
 	}
 
 
-	private static void createReta(Document doc, Element figuraElement, Reta2D reta) {
+	private static void createReta(Document doc, Element figuraElement, Reta reta) {
 		Element retaElement = doc.createElement("Reta");
 		figuraElement.appendChild(retaElement);
 		
-		retaElement.appendChild(createPonto(reta.p1, doc));
-		retaElement.appendChild(createPonto(reta.p2, doc));	
-		retaElement.appendChild(createCor(doc, reta.getCor()));
+		retaElement.appendChild(createPonto(reta.getP1(), doc));
+		retaElement.appendChild(createPonto(reta.getP2(), doc));
+		retaElement.appendChild(createCor(doc, reta.get_cor()));
 	}
 	
 	

@@ -21,14 +21,14 @@ public class Retangulo extends Forma {
     }
 
     //Construtores
-    Retangulo(int x1, int y1, int x2, int y2, Color color){
+    public Retangulo(int x1, int y1, int x2, int y2, Color color){
 
         setVertice1(new Ponto(x1, y1));
         setVertice2(new Ponto(x2, y2));
         this._cor =  color;
     }
 
-    Retangulo(Ponto p1, Ponto p2, Color color){
+    public Retangulo(Ponto p1, Ponto p2, Color color){
         setVertice1(new Ponto(p1));
         setVertice2(new Ponto(p2));
         this._cor =  color;

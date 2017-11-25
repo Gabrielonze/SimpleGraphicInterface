@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-class LinhaPoligonal extends Forma{
+public class LinhaPoligonal extends Forma {
 
     List<Ponto> pontos = new ArrayList<Ponto>();
     boolean poligono_fechado;
@@ -17,13 +17,13 @@ class LinhaPoligonal extends Forma{
         this.poligono_fechado = false;
     }
 
-    LinhaPoligonal(List<Ponto> pontos, Color color){
+    public LinhaPoligonal(List<Ponto> pontos, Color color){
         this.pontos = pontos;
         this._cor = color;
         this.poligono_fechado = false;
     }
 
-    LinhaPoligonal(List<Ponto> pontos, Color color, boolean fechado){
+    public LinhaPoligonal(List<Ponto> pontos, Color color, boolean fechado){
         this.pontos = pontos;
         this._cor = color;
         this.poligono_fechado = fechado;
