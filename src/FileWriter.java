@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
 
 public class FileWriter {
 
-	public static void write(File file, List<Reta> retas, List<Circulo> circulos, List<Retangulo> retangulos, List<LinhaPoligonal> linhasPoligonais) {
+	public static void write(File file, List<Forma> formas) {
 
 	  try {
 
@@ -29,21 +29,18 @@ public class FileWriter {
 		Element figuraElement = doc.createElement("Figura");
 		doc.appendChild(figuraElement);
 
-		for (Reta reta : retas) {
-			createReta(doc, figuraElement, reta);	
-		}
-		
-		for (Circulo circulo : circulos) {
-			createCirculo(doc, figuraElement, circulo);
-		}
-		
-		for (Retangulo retangulo : retangulos) {
-			createRetangulo(doc, figuraElement, retangulo);	
-		}
-		
-		for(LinhaPoligonal linhaPoligonal : linhasPoligonais) {
-			createLinhaPoligonal(doc, figuraElement, linhaPoligonal);
-		}
+		for (Forma forma : formas) {
+
+		    if(forma instanceof Reta){
+                createReta(doc, figuraElement, (Reta) forma);
+            } else if (forma instanceof Circulo) {
+                createCirculo(doc, figuraElement, (Circulo) forma);
+            } else if (forma instanceof Retangulo) {
+                createRetangulo(doc, figuraElement, (Retangulo) forma);
+            } else if (forma instanceof LinhaPoligonal) {
+                createLinhaPoligonal(doc, figuraElement, (LinhaPoligonal) forma);
+            }
+        }
 
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

@@ -1,7 +1,4 @@
-import formas.Circulo;
-import formas.LinhaPoligonal;
-import formas.Reta;
-import formas.Retangulo;
+import formas.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -134,10 +131,7 @@ class AppGUI extends JFrame {
 	}
 	
 	private void limparTela() {
-		areaDesenho.setCirculos(new ArrayList<Circulo>());
-		areaDesenho.setRetangulos(new ArrayList<Retangulo>());
-		areaDesenho.setRetas(new ArrayList<Reta>());
-		areaDesenho.setLinhasPoligonais(new ArrayList<LinhaPoligonal>());
+		areaDesenho.setFormas(new ArrayList<>());
 		areaDesenho.repaint();
 	}
 	
@@ -161,11 +155,7 @@ class AppGUI extends JFrame {
 			
 			if(fullLoad) {
 				System.out.println("Só imprimo depois de ler tudo");
-				areaDesenho.setRetas(fr.getRetas());
-				areaDesenho.setRetangulos(fr.getRetangulos());
-				areaDesenho.setCirculos(fr.getCirculos());
-				areaDesenho.setLinhasPoligonais(fr.getLinhasPoligonais());
-				
+				areaDesenho.setFormas(fr.getFormas());
 				areaDesenho.repaint();
 				
 			} else {
@@ -188,7 +178,7 @@ class AppGUI extends JFrame {
 		    
 		    try {
 				targetFile.createNewFile();
-				FileWriter.write(targetFile, areaDesenho.getRetas(), areaDesenho.getCirculos(), areaDesenho.getRetangulos(), areaDesenho.getLinhasPoligonais());
+				FileWriter.write(targetFile, areaDesenho.getFormas());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}    

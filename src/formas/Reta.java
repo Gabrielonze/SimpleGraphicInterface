@@ -2,13 +2,13 @@ package formas;
 
 import java.awt.*;
 
-public class Reta extends Forma{
+public class Reta extends Forma {
 
     Ponto p1, p2;
     EquacaoDaReta eq;
 
     //Construtores
-    Reta(int x1, int y1, int x2, int y2){
+    public Reta(int x1, int y1, int x2, int y2){
         setP1(new Ponto(x1, y1));
         setP2(new Ponto(x2, y2));
         this.eq = new EquacaoDaReta(this.p1, this.p2);

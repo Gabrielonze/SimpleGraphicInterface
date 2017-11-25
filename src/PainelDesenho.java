@@ -18,10 +18,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	ModosDeTrabalho tipo;
 	Ponto p1;
 	Ponto p2, oldP2;
-	List<Reta> retas = new ArrayList<Reta>();
-	List<Circulo> circulos = new ArrayList<Circulo>();
-	List<Retangulo> retangulos = new ArrayList<Retangulo>();
-	List<LinhaPoligonal> linhasPoligonais = new ArrayList<LinhaPoligonal>();
+	List<Forma> formas = new ArrayList<>();
 	Color currentColor = Color.BLACK;
 	LinhaPoligonal lp = null;
 	
@@ -36,38 +33,15 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		}
 				
 	}
-	
-	public void setRetas(List<Reta> retas) {
-		this.retas = retas;
-	}
 
-	public void setCirculos(List<Circulo> circulos) {
-		this.circulos = circulos;
-	}
-	
-	public void setRetangulos(List<Retangulo> retangulos) {
-		this.retangulos = retangulos;
-	}
-	
-	public void setLinhasPoligonais(List<LinhaPoligonal> linhasPoligonais) {
-		this.linhasPoligonais = linhasPoligonais;
-	}
+	public void setFormas(List<Forma> formas) {
+	    this.formas = formas;
+    }
 
-	public List<Reta> getRetas() {
-		return retas;
-	}
+    public List<Forma> getFormas() {
+        return formas;
+    }
 
-	public List<Circulo> getCirculos() {
-		return circulos;
-	}
-
-	public List<Retangulo> getRetangulos() {
-		return retangulos;
-	}
-	
-	public List<LinhaPoligonal> getLinhasPoligonais() {
-		return linhasPoligonais;
-	}
 
 	public PainelDesenho(JLabel msg, ModosDeTrabalho tipo) {
 		this.tipo = tipo;
@@ -124,14 +98,14 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		} else if (e.getButton() == 3 && tipo == ModosDeTrabalho.LINHA_POLIGONAL) {
 			p1 = null;
 			p2 = null;
-			linhasPoligonais.add(lp);
+			formas.add(lp);
 			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
 			repaint();
 		} else if (e.getButton() == 3 && tipo == ModosDeTrabalho.POLIGONO) {
 			p1 = null;
 			p2 = null;
 			lp.setPoligono_fechado(true);
-			linhasPoligonais.add(lp);
+            formas.add(lp);
 			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
 			repaint();
 		} else if (e.getButton() == 1 && tipo == ModosDeTrabalho.SELECIONAR) {
@@ -142,12 +116,11 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	public void mouseReleased(MouseEvent e) {
 
 		if (tipo == ModosDeTrabalho.RETAS && p1 != null && p2 != null) {
-			retas.add(new Reta(p1, p2, currentColor));
-		}
-		else if (tipo == ModosDeTrabalho.CIRCULOS && p1 != null && p2 != null) {
-			circulos.add(new Circulo(p1, p2.calcularDistancia(p1), currentColor));
+            formas.add(new Reta(p1, p2, currentColor));
+		} else if (tipo == ModosDeTrabalho.CIRCULOS && p1 != null && p2 != null) {
+            formas.add(new Circulo(p1, p2.calcularDistancia(p1), currentColor));
 		} else if (tipo == ModosDeTrabalho.RETANGULOS && p1 != null && p2 != null) {
-			retangulos.add(new Retangulo(p1, p2, currentColor));
+            formas.add(new Retangulo(p1, p2, currentColor));
 		}
 		
 		if(tipo != ModosDeTrabalho.LINHA_POLIGONAL && tipo != ModosDeTrabalho.POLIGONO) {
@@ -174,7 +147,6 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 
 	public void mouseExited(MouseEvent e) {}
 
-
 	public void mouseDragged(MouseEvent e) {
 
 		message(e);
@@ -186,18 +158,9 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	}
 
 	public void repaintAll(Graphics g) {
-		for(Reta r : retas) {
-			r.desenhar(g);
-		}
-		for(Circulo c : circulos) {
-			c.desenhar(g);
-		}
-		for(Retangulo c : retangulos) {
-			c.desenhar(g);
-		}
-		for(LinhaPoligonal c : linhasPoligonais) {
-			c.desenhar(g);
-		}
+		for(Forma f : formas){
+		    f.desenhar(g);
+        }
 
 		if(lp != null) {
 			lp.desenhar(g);
@@ -210,33 +173,25 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		System.out.println("Selected: FORM in ("+ x + ", " + y + ")");
 		boolean encontrouForma = false;
 		double margemDeErro = 5;
-		Object forma;
-		
-		for(Reta r : retas) {
-			if ( pontoNaReta(r, new Ponto(x,y)) ) {
-				encontrouForma = true;
-				forma = r;
-				((Reta)forma).set_cor(Color.RED);
-				repaint();
-				break;
-			}
-			
-		}
-		
-		System.out.println(encontrouForma);
-		/*for(Circulo c : circulos) {
-			
-		}
-		for(Retangulo c : retangulos) {
-			
-		}
-		for(LinhaPoligonal c : linhasPoligonais) {
+		Forma formaEncontrada;
 
-		}
-		for(Poligono c : poligonos) {
+        for (Forma forma : formas) {
 
-		}*/
-		
+            if(forma instanceof Reta){
+                if ( pontoNaReta((Reta) forma, new Ponto(x, y)) ) {
+                    encontrouForma = true;
+                    formaEncontrada = forma;
+                    formaEncontrada.set_cor(Color.RED);
+                    repaint();
+                    break;
+                }
+            } else if (forma instanceof Circulo) {
+            } else if (forma instanceof Retangulo) {
+            } else if (forma instanceof LinhaPoligonal) {
+            }
+        }
+
+        System.out.println(encontrouForma);
 	}
 	  
 

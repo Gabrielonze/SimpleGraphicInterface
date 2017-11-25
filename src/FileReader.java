@@ -14,11 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class FileReader{
-	
-	private List<Reta> retas = new ArrayList<Reta>();
-	private List<Circulo> circulos = new ArrayList<Circulo>();
-	private List<Retangulo> retangulos = new ArrayList<Retangulo>();
-	private List<LinhaPoligonal> linhasPoligonais = new ArrayList<LinhaPoligonal>();
+
+    private List<Forma> formas = new ArrayList<>();
 
 	public boolean readFile(String xmlPath){
 		try {
@@ -53,20 +50,8 @@ class FileReader{
 		}
 	}
 
-	public List<Reta> getRetas() {
-		return retas;
-	}
-
-	public List<Circulo> getCirculos() {
-		return circulos;
-	}
-
-	public List<Retangulo> getRetangulos() {
-		return retangulos;
-	}
-	
-	public List<LinhaPoligonal> getLinhasPoligonais() {
-		return linhasPoligonais;
+	public List<Forma> getFormas() {
+		return formas;
 	}
 	
 	private void buildLinhasPoligonais(NodeList nList, Boolean fechado) {
@@ -92,7 +77,7 @@ class FileReader{
 				}
 				
 				Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
-				linhasPoligonais.add(new LinhaPoligonal(pontos, cor, fechado));
+                formas.add(new LinhaPoligonal(pontos, cor, fechado));
 			
 			}
 		}
@@ -177,7 +162,7 @@ class FileReader{
 		int ponto2Y = Conversor.relativeToPixel(p2y);
 		
 		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
-		retas.add(new Reta(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
+        formas.add(new Reta(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
 	}
 	
 	private void createRetangulo(String p1x, String p1y, String p2x, String p2y, String corR, String corG, String corB) {
@@ -188,7 +173,7 @@ class FileReader{
 		int ponto2Y = Conversor.relativeToPixel(p2y);
 		
 		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
-		retangulos.add(new Retangulo(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
+        formas.add(new Retangulo(ponto1X, ponto1Y, ponto2X, ponto2Y, cor));
 	}
 	
 	
@@ -198,7 +183,7 @@ class FileReader{
 		int raio = (int) Conversor.relativeToPixel(raioStr);
 		
 		Color cor = new Color(Integer.parseInt(corR), Integer.parseInt(corG), Integer.parseInt(corB));
-		circulos.add(new Circulo(ponto1X, ponto1Y, raio, cor));
+        formas.add(new Circulo(ponto1X, ponto1Y, raio, cor));
 	}
 }
 
