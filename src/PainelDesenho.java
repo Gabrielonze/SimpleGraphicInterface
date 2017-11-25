@@ -188,20 +188,14 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		double margemDeErro = 5;
 
         for (Forma forma : formas) {
-
-            if(forma instanceof Reta){
-                if ( pontoNaReta((Reta) forma, new Ponto(x, y)) ) {
-                    encontrouForma = true;
-                    formaSelecionada = forma;
-                    corFormaSelecinada = forma.get_cor();
-                    formaSelecionada.set_cor(Color.RED);
-                    repaint();
-                    break;
-                }
-            } else if (forma instanceof Circulo) {
-            } else if (forma instanceof Retangulo) {
-            } else if (forma instanceof LinhaPoligonal) {
-            }
+			if ( forma.pontoNaForma(new Ponto(x, y)) ) {
+				encontrouForma = true;
+				formaSelecionada = forma;
+				corFormaSelecinada = forma.get_cor();
+				formaSelecionada.set_cor(Color.RED);
+				repaint();
+				break;
+			}
         }
 
         System.out.println(encontrouForma);
@@ -257,12 +251,4 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		repaintAll(g);
 
 	}
-
-	private boolean pontoNaReta(Reta r, Ponto p){
-		int margemDeErro = 10;
-		return (r.calculaDistanciaEntreRetaEPonto(p) <= margemDeErro)
-				&& ((p.getX() >= r.getP1().getX() && p.getX() <= r.getP2().getX()) || (p.getX() >= r.getP2().getX() && p.getX() <= r.getP1().getX()))
-				&& ((p.getY() >= r.getP1().getY() && p.getY() <= r.getP2().getY()) || (p.getY() >= r.getP2().getY() && p.getY() <= r.getP1().getY()));
-	}
-
 }

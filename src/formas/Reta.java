@@ -191,4 +191,11 @@ public class Reta extends Forma {
         }
 
     }
+
+    public boolean pontoNaForma(Ponto p){
+        int margemDeErro = 10;
+        return (calculaDistanciaEntreRetaEPonto(p) <= margemDeErro)
+                && ((p.getX() >= getP1().getX() && p.getX() <= getP2().getX()) || (p.getX() >= getP2().getX() && p.getX() <= getP1().getX()))
+                && ((p.getY() >= getP1().getY() && p.getY() <= getP2().getY()) || (p.getY() >= getP2().getY() && p.getY() <= getP1().getY()));
+    }
 }

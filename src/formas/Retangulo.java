@@ -91,4 +91,9 @@ public class Retangulo extends Forma {
 
         r4.desenhar(g);
     }
+
+    @Override
+    public boolean pontoNaForma(Ponto p) {
+        return false;
+    }
 }

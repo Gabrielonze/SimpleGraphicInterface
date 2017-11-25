@@ -83,4 +83,9 @@ public class LinhaPoligonal extends Forma {
             reta.desenhar(g);
         }
     }
+
+    @Override
+    public boolean pontoNaForma(Ponto p) {
+        return false;
+    }
 }

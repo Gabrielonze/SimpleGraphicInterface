@@ -105,4 +105,9 @@ public class Circulo extends Forma {
             }
         }
    }
+
+    @Override
+    public boolean pontoNaForma(Ponto p) {
+        return false;
+    }
 }
