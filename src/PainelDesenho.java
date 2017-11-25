@@ -83,7 +83,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		
 		msg.setText("Primitivo: "+tipo.name().replace("_", " "));
 		
-		if(this.tipo == ModosDeTrabalho.LINHA_POLIGONAL) {
+		if(this.tipo == ModosDeTrabalho.LINHA_POLIGONAL || this.tipo == ModosDeTrabalho.POLIGONO) {
 			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
 		}
 
@@ -111,7 +111,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	}
 
 	public void mousePressed(MouseEvent e) {
-		if(e.getButton() == 1 && tipo == ModosDeTrabalho.LINHA_POLIGONAL) {
+		if(e.getButton() == 1 && ( tipo == ModosDeTrabalho.LINHA_POLIGONAL ||  tipo == ModosDeTrabalho.POLIGONO)) {
 			Ponto po = new Ponto((double)e.getX(), (double)e.getY());
 			lp.addPonto(po);
 			
