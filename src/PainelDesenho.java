@@ -21,6 +21,9 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 	List<Forma> formas = new ArrayList<>();
 	Color currentColor = Color.BLACK;
 	LinhaPoligonal lp = null;
+
+	Forma formaSelecionada;
+	Color corFormaSelecinada;
 	
 	private Image offScreenImage = null;
 	private Graphics offScreenGraphics = null;
@@ -168,20 +171,30 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		
 		setBackground(java.awt.Color.white);
 	}
+
+	private void deselecionarForma() {
+	    if(formaSelecionada != null && corFormaSelecinada != null) {
+            formaSelecionada.set_cor(corFormaSelecinada);
+            formaSelecionada = null;
+            corFormaSelecinada = null;
+            repaint();
+        }
+    }
 	
 	public void selecionarForma(int x, int y) {
+        deselecionarForma();
 		System.out.println("Selected: FORM in ("+ x + ", " + y + ")");
 		boolean encontrouForma = false;
 		double margemDeErro = 5;
-		Forma formaEncontrada;
 
         for (Forma forma : formas) {
 
             if(forma instanceof Reta){
                 if ( pontoNaReta((Reta) forma, new Ponto(x, y)) ) {
                     encontrouForma = true;
-                    formaEncontrada = forma;
-                    formaEncontrada.set_cor(Color.RED);
+                    formaSelecionada = forma;
+                    corFormaSelecinada = forma.get_cor();
+                    formaSelecionada.set_cor(Color.RED);
                     repaint();
                     break;
                 }
