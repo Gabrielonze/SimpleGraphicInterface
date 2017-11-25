@@ -1,6 +1,7 @@
 package formas;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Retangulo extends Forma {
 
@@ -67,33 +68,46 @@ public class Retangulo extends Forma {
 
     }
 
-    @Override
-    public void desenhar(Graphics g) {
+    private ArrayList<Reta> calcularRetas() {
+        ArrayList<Reta> retas = new ArrayList<>();
 
         Ponto2D ponto1 = new Ponto2D((int)getVertice1().getX(), (int)getVertice1().getY());
         Ponto2D ponto2 = new Ponto2D((int)getVertice1().getX(), (int)getVertice2().getY());
         Ponto2D ponto3 = new Ponto2D((int)getVertice2().getX(), (int)getVertice1().getY());
         Ponto2D ponto4 = new Ponto2D((int)getVertice2().getX(), (int)getVertice2().getY());
 
-        Reta r1 = new Reta(ponto1, ponto2, this._cor);
-        Reta r2 = new Reta(ponto3, ponto4, this._cor);
-        Reta r3 = new Reta(ponto1, ponto3, this._cor);
-        Reta r4 = new Reta(ponto2, ponto4, this._cor);
+        retas.add(new Reta(ponto1, ponto2, this._cor));
+        retas.add(new Reta(ponto3, ponto4, this._cor));
+        retas.add(new Reta(ponto1, ponto3, this._cor));
+        retas.add(new Reta(ponto2, ponto4, this._cor));
 
-        r1.desenhar(g);
-        r2.desenhar(g);
-
-        try {
-            r3.desenhar(g);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        r4.desenhar(g);
+        return retas;
     }
 
     @Override
-    public boolean pontoNaForma(Ponto p) {
-        return false;
+    public void desenhar(Graphics g) {
+        ArrayList<Reta> retas = calcularRetas();
+        for(Reta r: retas) {
+            r.desenhar(g);
+        }
     }
+
+    @Override
+    public boolean pontoNaForma(Ponto p, int margemDeErro) {
+
+        boolean encontrouForma = false;
+
+        ArrayList<Reta> retas = calcularRetas();
+
+        for(Reta r: retas) {
+            if(r.pontoNaForma(p, margemDeErro)){
+                encontrouForma = true;
+                break;
+            }
+        }
+
+        return encontrouForma;
+    }
+
+
 }

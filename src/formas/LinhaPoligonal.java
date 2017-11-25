@@ -66,26 +66,49 @@ public class LinhaPoligonal extends Forma {
 
     }
 
-    @Override
-    public void desenhar(Graphics g) {
+    private ArrayList<Reta> calcularRetas() {
+        ArrayList<Reta> retas = new ArrayList<>();
+
 
         for(int i = 0; i < getPontos().size() - 1 ; i++){
             Ponto p1 = getPontos().get(i);
             Ponto p2 = getPontos().get(i+1);
             Reta reta = new Reta(p1, p2, this._cor);
-            reta.desenhar(g);
+            retas.add(reta);
         }
 
         if (this.poligono_fechado){
             Ponto primeiroPonto  = getPontos().get(0);
             Ponto ultimoPonto = getPontos().get(getPontos().size()-1);
             Reta reta = new Reta(primeiroPonto, ultimoPonto, this._cor);
-            reta.desenhar(g);
+            retas.add(reta);
+        }
+
+        return retas;
+    }
+
+    @Override
+    public void desenhar(Graphics g) {
+        ArrayList<Reta> retas = calcularRetas();
+        for(Reta r: retas) {
+            r.desenhar(g);
         }
     }
 
     @Override
-    public boolean pontoNaForma(Ponto p) {
-        return false;
+    public boolean pontoNaForma(Ponto p, int margemDeErro) {
+        boolean encontrouForma = false;
+
+        ArrayList<Reta> retas = calcularRetas();
+
+        for(Reta r: retas) {
+            if(r.pontoNaForma(p, margemDeErro)){
+                encontrouForma = true;
+                break;
+            }
+        }
+
+        return encontrouForma;
     }
+
 }

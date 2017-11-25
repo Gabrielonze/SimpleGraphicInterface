@@ -188,7 +188,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		double margemDeErro = 5;
 
         for (Forma forma : formas) {
-			if ( forma.pontoNaForma(new Ponto(x, y)) ) {
+			if ( forma.pontoNaForma(new Ponto(x, y), 10) ) {
 				encontrouForma = true;
 				formaSelecionada = forma;
 				corFormaSelecinada = forma.get_cor();

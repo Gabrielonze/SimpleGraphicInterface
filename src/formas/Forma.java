@@ -10,7 +10,7 @@ public abstract class Forma {
     public abstract void escalar(double fatorEscala);
     public abstract void transladar(double distanciaX, double distanciaY);
     public abstract void desenhar(Graphics g);
-    public abstract boolean pontoNaForma(Ponto p);
+    public abstract boolean pontoNaForma(Ponto p, int margemDeErro);
 
     public void set_cor(Color _cor) {
         this._cor = _cor;
@@ -19,4 +19,5 @@ public abstract class Forma {
     public Color get_cor(){
         return this._cor;
     }
+
 }

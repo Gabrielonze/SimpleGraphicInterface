@@ -107,7 +107,8 @@ public class Circulo extends Forma {
    }
 
     @Override
-    public boolean pontoNaForma(Ponto p) {
+    public boolean pontoNaForma(Ponto p, int margemDeErro) {
         return false;
     }
+
 }
