@@ -110,8 +110,6 @@ public class Circulo extends Forma {
     public boolean pontoNaForma(Ponto p, int margemDeErro) {
 
        double distancia = Math.sqrt( Math.pow((p.getX() - _centro.getX()), 2) + Math.pow((p.getY() - _centro.getY()), 2));
-
-       System.out.println(distancia - _raio);
        return Math.abs(distancia - _raio) <= margemDeErro;
     }
 
