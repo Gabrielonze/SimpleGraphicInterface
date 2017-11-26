@@ -57,6 +57,8 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		this.tipo = tipo;
 		p1 = null;
 		p2 = null;
+
+		deselecionarForma();
 		
 		msg.setText("Primitivo: "+tipo.name().replace("_", " "));
 		
@@ -102,14 +104,14 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			p1 = null;
 			p2 = null;
 			formas.add(lp);
-			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
+			lp = new LinhaPoligonal(new ArrayList<>(), currentColor);
 			repaint();
 		} else if (e.getButton() == 3 && tipo == ModosDeTrabalho.POLIGONO) {
 			p1 = null;
 			p2 = null;
 			lp.setPoligono_fechado(true);
             formas.add(lp);
-			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
+			lp = new LinhaPoligonal(new ArrayList<>(), currentColor);
 			repaint();
 		} else if (e.getButton() == 1 && tipo == ModosDeTrabalho.SELECIONAR) {
 			selecionarForma(e.getX(), e.getY());
@@ -250,5 +252,14 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		
 		repaintAll(g);
 
+	}
+
+	public void apagarFormaSelecionada() {
+		if(formaSelecionada != null && corFormaSelecinada != null) {
+			formas.remove(formaSelecionada);
+			formaSelecionada = null;
+			corFormaSelecinada = null;
+			repaint();
+		}
 	}
 }

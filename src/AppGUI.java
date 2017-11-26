@@ -33,6 +33,11 @@ class AppGUI extends JFrame {
 	private JButton jbLimparTela = new JButton("Limpar Tela");
 	private JButton jbSelecionarForma = new JButton("\u2316");
 
+	private JButton jbApagar = new JButton("\u232B");
+	private JButton jbGirar = new JButton("\u2d54");
+	private JButton jbRotacionar = new JButton("\u25fb");
+	private JButton jbEscalar = new JButton("\u29d9");
+
 
 	public AppGUI(int larg, int alt) {
 		/**
@@ -64,6 +69,7 @@ class AppGUI extends JFrame {
 		barraComandosPrimitivos.add(jbRetangulos);
 		barraComandosPrimitivos.add(jbLinhaPoligonal);
 		barraComandosPrimitivos.add(jbPoligono);
+		barraComandosPrimitivos.add(jbApagar);
 		barraComandosPrimitivos.setFloatable(false);
 		
 		barraComandos.add(jbCarregarDesenho);
@@ -92,6 +98,8 @@ class AppGUI extends JFrame {
 		jbCor.addActionListener(eventos);
 		jbLimparTela.addActionListener(eventos);
 		jbSelecionarForma.addActionListener(eventos);
+
+		jbApagar.addActionListener(eventos);
 		
 	}
 	
@@ -119,13 +127,19 @@ class AppGUI extends JFrame {
 				limparTela();
 			} else if(event.getSource() == jbSelecionarForma) {
 				selecionarForma();
+			} else if(event.getSource() == jbApagar) {
+				apagarForma();
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
 			
 		}
 	}
-	
+
+	private void apagarForma() {
+		areaDesenho.apagarFormaSelecionada();
+	}
+
 	private void selecionarForma() {
 		areaDesenho.setTipo(ModosDeTrabalho.SELECIONAR);
 	}
