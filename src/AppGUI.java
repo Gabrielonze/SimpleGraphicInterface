@@ -1,5 +1,3 @@
-import formas.*;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -15,13 +13,9 @@ class AppGUI extends JFrame {
 	ModosDeTrabalho tipo = ModosDeTrabalho.NENHUM;
 
 	private PainelDesenho areaDesenho = new PainelDesenho(msg, tipo);
-	
-	// barra de 
 	private JToolBar barraComandos = new JToolBar();
 	private JToolBar barraComandosPrimitivos = new JToolBar(JToolBar.VERTICAL);
-	
-	//JPanel subPanel = new JPanel();
-	
+
 	private JButton jbRetas = new JButton("\u2571");
 	private JButton jbCirculos = new JButton("\u2d54");
 	private JButton jbRetangulos = new JButton("\u25fb");
@@ -34,9 +28,9 @@ class AppGUI extends JFrame {
 	private JButton jbSelecionarForma = new JButton("\u2316");
 
 	private JButton jbApagar = new JButton("\u232B");
-	private JButton jbGirar = new JButton("\u2d54");
-	private JButton jbRotacionar = new JButton("\u25fb");
-	private JButton jbEscalar = new JButton("\u29d9");
+	private JButton jbMover = new JButton("\u2932");
+	private JButton jbRotacionar = new JButton("\u27f2");
+	private JButton jbEscalar = new JButton("\u219B");
 
 
 	public AppGUI(int larg, int alt) {
@@ -49,7 +43,8 @@ class AppGUI extends JFrame {
 		setVisible(true);
 		getContentPane().setBackground(java.awt.Color.white);
 		setResizable(false);
-		
+
+		buttonStatus(false);
 		
 		jbSelecionarForma.setFont(new Font("Arial", Font.BOLD, 20));
 		jbRetas.setFont(new Font("Arial", Font.BOLD, 20));
@@ -57,9 +52,10 @@ class AppGUI extends JFrame {
 		jbRetangulos.setFont(new Font("Arial", Font.BOLD, 20));
 		jbLinhaPoligonal.setFont(new Font("Arial", Font.BOLD, 20));
 		jbPoligono.setFont(new Font("Arial", Font.BOLD, 20));
-		
-		
-		
+		jbApagar.setFont(new Font("Arial", Font.BOLD, 20));
+		jbMover.setFont(new Font("Arial", Font.BOLD, 20));
+		jbRotacionar.setFont(new Font("Arial", Font.BOLD, 20));
+		jbEscalar.setFont(new Font("Arial", Font.BOLD, 20));
 		
 		// Adicionando os componentes
 
@@ -70,6 +66,9 @@ class AppGUI extends JFrame {
 		barraComandosPrimitivos.add(jbLinhaPoligonal);
 		barraComandosPrimitivos.add(jbPoligono);
 		barraComandosPrimitivos.add(jbApagar);
+		barraComandosPrimitivos.add(jbMover);
+		barraComandosPrimitivos.add(jbRotacionar);
+		barraComandosPrimitivos.add(jbEscalar);
 		barraComandosPrimitivos.setFloatable(false);
 		
 		barraComandos.add(jbCarregarDesenho);
@@ -85,8 +84,6 @@ class AppGUI extends JFrame {
 		add(msg, BorderLayout.SOUTH);
 
 		
-		
-		
 		Eventos eventos = new Eventos();
 		jbRetas.addActionListener(eventos);
 		jbCirculos.addActionListener(eventos);
@@ -100,12 +97,17 @@ class AppGUI extends JFrame {
 		jbSelecionarForma.addActionListener(eventos);
 
 		jbApagar.addActionListener(eventos);
+		jbMover.addActionListener(eventos);
+		jbRotacionar.addActionListener(eventos);
+		jbEscalar.addActionListener(eventos);
 		
 	}
 	
 	private class Eventos implements ActionListener{
 
-		public void actionPerformed(ActionEvent event) {            
+		public void actionPerformed(ActionEvent event) {
+
+			buttonStatus(false);
 
 			if (event.getSource() == jbRetas){
 				areaDesenho.setTipo(ModosDeTrabalho.RETAS);
@@ -129,6 +131,12 @@ class AppGUI extends JFrame {
 				selecionarForma();
 			} else if(event.getSource() == jbApagar) {
 				apagarForma();
+			} else if(event.getSource() == jbMover) {
+
+			} else if(event.getSource() == jbRotacionar) {
+
+			} else if(event.getSource() == jbEscalar) {
+
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
@@ -137,10 +145,12 @@ class AppGUI extends JFrame {
 	}
 
 	private void apagarForma() {
+		buttonStatus(true);
 		areaDesenho.apagarFormaSelecionada();
 	}
 
 	private void selecionarForma() {
+		buttonStatus(true);
 		areaDesenho.setTipo(ModosDeTrabalho.SELECIONAR);
 	}
 	
@@ -152,6 +162,13 @@ class AppGUI extends JFrame {
 	private void changeColor() {
 		Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.BLACK);
 		areaDesenho.setCor(newColor);
+	}
+
+	private void buttonStatus(boolean status) {
+		jbApagar.setEnabled(status);
+		jbMover.setEnabled(status);
+		jbRotacionar.setEnabled(status);
+		jbEscalar.setEnabled(status);
 	}
 
 	
