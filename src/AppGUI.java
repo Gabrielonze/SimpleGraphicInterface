@@ -43,7 +43,7 @@ class AppGUI extends JFrame {
 		/**
 		 * Definicoes de janela
 		 */
-		super("Testa Primitivos");
+		super("SGI Draw");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(larg, alt);
 		setVisible(true);
