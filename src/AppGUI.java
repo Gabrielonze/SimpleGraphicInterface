@@ -1,8 +1,12 @@
+import formas.Ponto;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,21 +20,21 @@ class AppGUI extends JFrame {
 	private JToolBar barraComandos = new JToolBar();
 	private JToolBar barraComandosPrimitivos = new JToolBar(JToolBar.VERTICAL);
 
-	private JButton jbRetas = new JButton("\u2571");
-	private JButton jbCirculos = new JButton("\u2d54");
-	private JButton jbRetangulos = new JButton("\u25fb");
-	private JButton jbLinhaPoligonal = new JButton("\u29d9");
-	private JButton jbPoligono = new JButton("\u2394");
-	private JButton jbCarregarDesenho = new JButton("Recarregar Desenho");
-	private JButton jbSalvarDesenho = new JButton("Salvar Desenho");
-	private JButton jbCor = new JButton("Trocar Cor");
-	private JButton jbLimparTela = new JButton("Limpar Tela");
-	private JButton jbSelecionarForma = new JButton("\u2316");
+	private JButton jbRetas = new JButton();
+	private JButton jbCirculos = new JButton();
+	private JButton jbRetangulos = new JButton();
+	private JButton jbLinhaPoligonal = new JButton();
+	private JButton jbPoligono = new JButton();
+	private JButton jbCarregarDesenho = new JButton("Load");
+	private JButton jbSalvarDesenho = new JButton("Save");
+	private JButton jbCor = new JButton();
+	private JButton jbLimparTela = new JButton("Reset Canvas");
+	private JButton jbSelecionarForma = new JButton();
 
-	private JButton jbApagar = new JButton("\u232B");
-	private JButton jbMover = new JButton("\u2932");
-	private JButton jbRotacionar = new JButton("\u27f2");
-	private JButton jbEscalar = new JButton("\u219B");
+	private JButton jbApagar = new JButton();
+	private JButton jbMover = new JButton();
+	private JButton jbRotacionar = new JButton();
+	private JButton jbEscalar = new JButton();
 
 
 	public AppGUI(int larg, int alt) {
@@ -45,7 +49,36 @@ class AppGUI extends JFrame {
 		setResizable(false);
 
 		buttonStatus(false);
-		
+
+		try {
+			Image selecaoImg = ImageIO.read(getClass().getResource("img/selecao.png"));
+			jbSelecionarForma.setIcon(new ImageIcon(selecaoImg));
+			Image retanguloImg = ImageIO.read(getClass().getResource("img/retangulo.png"));
+			jbRetangulos.setIcon(new ImageIcon(retanguloImg));
+			Image circuloImg = ImageIO.read(getClass().getResource("img/circulo.png"));
+			jbCirculos.setIcon(new ImageIcon(circuloImg));
+			Image poligonoImg = ImageIO.read(getClass().getResource("img/poligono.png"));
+			jbPoligono.setIcon(new ImageIcon(poligonoImg));
+
+			Image retaImg = ImageIO.read(getClass().getResource("img/reta.png"));
+			jbRetas.setIcon(new ImageIcon(retaImg));
+			Image linhaImg = ImageIO.read(getClass().getResource("img/linha.png"));
+			jbLinhaPoligonal.setIcon(new ImageIcon(linhaImg));
+
+			Image escalaImg = ImageIO.read(getClass().getResource("img/escala.png"));
+			jbEscalar.setIcon(new ImageIcon(escalaImg));
+			Image transladarImg = ImageIO.read(getClass().getResource("img/trasladar.png"));
+			jbMover.setIcon(new ImageIcon(transladarImg));
+			Image rotacionarImg = ImageIO.read(getClass().getResource("img/rotacao.png"));
+			jbRotacionar.setIcon(new ImageIcon(rotacionarImg));
+			Image deletarImg = ImageIO.read(getClass().getResource("img/deletar.png"));
+			jbApagar.setIcon(new ImageIcon(deletarImg));
+			Image rainbowImg = ImageIO.read(getClass().getResource("img/rainbow.jpg"));
+			jbCor.setIcon(new ImageIcon(rainbowImg));
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
 		jbSelecionarForma.setFont(new Font("Arial", Font.BOLD, 20));
 		jbRetas.setFont(new Font("Arial", Font.BOLD, 20));
 		jbCirculos.setFont(new Font("Arial", Font.BOLD, 20));
@@ -56,8 +89,11 @@ class AppGUI extends JFrame {
 		jbMover.setFont(new Font("Arial", Font.BOLD, 20));
 		jbRotacionar.setFont(new Font("Arial", Font.BOLD, 20));
 		jbEscalar.setFont(new Font("Arial", Font.BOLD, 20));
-		
+
+
+
 		// Adicionando os componentes
+
 
 		barraComandosPrimitivos.add(jbSelecionarForma);
 		barraComandosPrimitivos.add(jbRetas);
@@ -69,11 +105,11 @@ class AppGUI extends JFrame {
 		barraComandosPrimitivos.add(jbMover);
 		barraComandosPrimitivos.add(jbRotacionar);
 		barraComandosPrimitivos.add(jbEscalar);
+		barraComandosPrimitivos.add(jbCor);
 		barraComandosPrimitivos.setFloatable(false);
-		
+
 		barraComandos.add(jbCarregarDesenho);
 		barraComandos.add(jbSalvarDesenho);
-		barraComandos.add(jbCor);
 		barraComandos.add(jbLimparTela);
 		barraComandos.setFloatable(false);
 		jbRetas.setSize(300, 300);
