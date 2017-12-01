@@ -10,8 +10,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class PainelDesenho extends JPanel implements MouseListener, MouseMotionListener {
 	JLabel msg;
@@ -61,9 +60,11 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		msg.setText("Primitivo: "+tipo.name().replace("_", " "));
 		
 		if(this.tipo == ModosDeTrabalho.LINHA_POLIGONAL || this.tipo == ModosDeTrabalho.POLIGONO) {
-			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
-		} else if (tipo != ModosDeTrabalho.ESCALAR) {
+			lp = new LinhaPoligonal(new ArrayList<>(), currentColor);
+		} else if (tipo != ModosDeTrabalho.ROTACIONAR) {
 			deselecionarForma();
+		} else {
+			JOptionPane.showMessageDialog(null, "Clique no ponto de referência da rotação");
 		}
 
 	}
@@ -97,20 +98,20 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			p1 = new Ponto(e.getX(), e.getY());
 			repaint();
 
-		} else if (e.getButton() == 1 && tipo != ModosDeTrabalho.SELECIONAR && tipo != ModosDeTrabalho.ESCALAR) {
+		} else if (e.getButton() == 1 && tipo != ModosDeTrabalho.SELECIONAR && tipo != ModosDeTrabalho.ROTACIONAR) {
 			p1 = new Ponto(e.getX(), e.getY());
 			p2 = null;
-		} else if (tipo == ModosDeTrabalho.ESCALAR){
+		} else if (e.getButton() == 1 && tipo == ModosDeTrabalho.ROTACIONAR){
 
-			if(e.getButton() == 1){
-				p1 = new Ponto(0, e.getY());
-				p2 = null;
-			} else if(e.getButton() == 3){
-				tipo = ModosDeTrabalho.SELECIONAR;
-				p1 = null;
-				p2 = null;
-				deselecionarForma();
+			try{
+				String anguloString = JOptionPane.showInputDialog("Insira quantos graus deseja rotacionar:");
+				Double angulo = Double.parseDouble(anguloString);
+				rotacionarFormaSelecionada(new Ponto(e.getX(), e.getY()), angulo);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Valor Inválido");
 			}
+
+			deselecionarForma();
 
 
 		} else if (e.getButton() == 3 && tipo == ModosDeTrabalho.LINHA_POLIGONAL) {
@@ -141,8 +142,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
             formas.add(new Retangulo(p1, p2, currentColor));
 		}
 		
-		if(tipo != ModosDeTrabalho.LINHA_POLIGONAL && tipo != ModosDeTrabalho.POLIGONO
-				&& tipo != ModosDeTrabalho.ESCALAR) {
+		if(tipo != ModosDeTrabalho.LINHA_POLIGONAL && tipo != ModosDeTrabalho.POLIGONO) {
 			p1 = null;
 			p2 = null;
 		}
@@ -155,16 +155,6 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 				oldP2 = p2;
 				p2 = new Ponto(e.getX(), e.getY());
 				repaint();
-			}
-		} else if(tipo == ModosDeTrabalho.ESCALAR) {
-			if(p1 != null){
-				Ponto newPonto = new Ponto(0, e.getY());
-				Double distancia = p1.calcularDistancia(newPonto);
-				Double fatorEscala = distancia / 100;
-				escalarFormaSelecionada(fatorEscala);
-				msg.setText("Primitivo: "+ fatorEscala);
-
-
 			}
 		}
 	}
@@ -305,5 +295,9 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			formaSelecionada.rotacionar(ponto, angulo);
 			repaint();
 		}
+	}
+
+	public void iniciarRotacionarFormaSelecionada(Double angulo) {
+
 	}
 }

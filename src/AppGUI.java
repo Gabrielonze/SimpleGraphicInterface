@@ -170,17 +170,11 @@ class AppGUI extends JFrame {
 			} else if(event.getSource() == jbApagar) {
 				apagarForma();
 			} else if(event.getSource() == jbMover) {
-				transladarForma(50, 10);
-
+				transladarForma();
 			} else if(event.getSource() == jbRotacionar) {
-				rotacionarForma(new Ponto(350,350), 45.0 );
-
+				rotacionarForma();
 			} else if(event.getSource() == jbEscalar) {
-				/*String fatorEscalarString = JOptionPane.showInputDialog("Quantas vezes deseja escalar?");
-				if(fatorEscalarString.matches("[0-9]{1,13}(\\.[0-9]*)?")){
-					escalarForma(Double.parseDouble(fatorEscalarString));
-				}*/
-				areaDesenho.setTipo(ModosDeTrabalho.ESCALAR);
+				escalarForma();
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
@@ -188,19 +182,51 @@ class AppGUI extends JFrame {
 		}
 	}
 
-	private void rotacionarForma(Ponto ponto, double angulo) {
+	private void rotacionarForma() {
 		buttonStatus(true);
-		areaDesenho.rotacionarFormaSelecionada(ponto, angulo);
+		areaDesenho.setTipo(ModosDeTrabalho.ROTACIONAR);
+
 	}
 
-	private void escalarForma(double fatorEscala) {
+	private void escalarForma() {
 		buttonStatus(true);
-		areaDesenho.escalarFormaSelecionada(fatorEscala);
+
+		String fatorEscalarString = JOptionPane.showInputDialog("Quantas vezes deseja escalar?");
+
+		try{
+			if(fatorEscalarString.matches("[0-9]{1,13}(\\.[0-9]*)?")){
+				areaDesenho.escalarFormaSelecionada(Double.parseDouble(fatorEscalarString));
+			} else {
+				throw new Exception("Valor fora do padrão Double");
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Valor Inválido");
+		}
+
 	}
 
-	private void transladarForma(int fatorX, int fatorY){
+	private void transladarForma(){
 		buttonStatus(true);
-		areaDesenho.transladarFormaSelecionada(fatorX, fatorY);
+		String moveString = JOptionPane.showInputDialog("Quanto deseja mover?\nInsira: (x, y) Exemplo:\n30, 20 ");
+
+		if(moveString != null){
+
+			String[] split = moveString.split(",");
+
+			try{
+				if(split.length == 2){
+					String xStr = split[0].trim();
+					String yStr = split[0].trim();
+					int fatorX = Integer.parseInt(xStr);
+					int fatorY = Integer.parseInt(yStr);
+					areaDesenho.transladarFormaSelecionada(fatorX, fatorY);
+				} else {
+					throw new Exception("Valor fora do formato 'x,y'");
+				}
+			} catch (Exception e){
+				JOptionPane.showMessageDialog(null, "Valor Inválido");
+			}
+		}
 	}
 
 	private void apagarForma() {

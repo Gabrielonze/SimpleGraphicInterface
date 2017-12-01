@@ -75,11 +75,10 @@ public class Retangulo extends Forma {
 
     @Override
     public void escalar(double fatorEscala) {
-        /*this.vertice1.escalar(fatorEscala);
+        this.vertice1.escalar(fatorEscala);
         this.vertice2.escalar(fatorEscala);
         this.vertice3.escalar(fatorEscala);
-        this.vertice4.escalar(fatorEscala);*/
-        this.fatorEscala = fatorEscala;
+        this.vertice4.escalar(fatorEscala);
     }
 
     @Override
@@ -94,22 +93,10 @@ public class Retangulo extends Forma {
     private ArrayList<Reta> calcularRetas() {
         ArrayList<Reta> retas = new ArrayList<>();
 
-        Ponto v1_escala = new Ponto(vertice1.getX(), vertice1.getY());
-        v1_escala.escalar(fatorEscala);
-
-        Ponto v2_escala = new Ponto(vertice2.getX(), vertice2.getY());
-        v2_escala.escalar(fatorEscala);
-
-        Ponto v3_escala = new Ponto(vertice3.getX(), vertice3.getY());
-        v3_escala.escalar(fatorEscala);
-
-        Ponto v4_escala = new Ponto(vertice4.getX(), vertice4.getY());
-        v4_escala.escalar(fatorEscala);
-
-        retas.add(new Reta(v1_escala, v3_escala, this._cor));
-        retas.add(new Reta(v1_escala, v4_escala, this._cor));
-        retas.add(new Reta(v2_escala, v3_escala, this._cor));
-        retas.add(new Reta(v2_escala, v4_escala, this._cor));
+        retas.add(new Reta(vertice1, vertice3, this._cor));
+        retas.add(new Reta(vertice1, vertice4, this._cor));
+        retas.add(new Reta(vertice2, vertice3, this._cor));
+        retas.add(new Reta(vertice2, vertice4, this._cor));
 
         return retas;
     }
