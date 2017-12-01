@@ -75,7 +75,7 @@ class AppGUI extends JFrame {
 			jbRotacionar.setIcon(new ImageIcon(rotacionarImg));
 			Image deletarImg = ImageIO.read(getClass().getResource("img/deletar.png"));
 			jbApagar.setIcon(new ImageIcon(deletarImg));
-			Image rainbowImg = ImageIO.read(getClass().getResource("img/rainbow.jpg"));
+			Image rainbowImg = ImageIO.read(getClass().getResource("img/color.png"));
 			jbCor.setIcon(new ImageIcon(rainbowImg));
 		} catch (Exception ex) {
 			System.out.println(ex);
