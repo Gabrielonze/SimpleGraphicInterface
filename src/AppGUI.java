@@ -110,6 +110,10 @@ class AppGUI extends JFrame {
 		barraComandosPrimitivos.add(jbCor);
 		barraComandosPrimitivos.setFloatable(false);
 
+		jbCarregarDesenho.setFont(new Font("Arial", Font.PLAIN, 15));
+		jbSalvarDesenho.setFont(new Font("Arial", Font.PLAIN, 15));
+		jbLimparTela.setFont(new Font("Arial", Font.PLAIN, 15));
+
 		barraComandos.add(jbCarregarDesenho);
 		barraComandos.add(jbSalvarDesenho);
 		barraComandos.add(jbLimparTela);
