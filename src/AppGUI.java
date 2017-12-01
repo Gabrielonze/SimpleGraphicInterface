@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static javax.swing.JOptionPane.showInputDialog;
+
 class AppGUI extends JFrame {
 
 	private JLabel msg = new JLabel("Msg: ");
@@ -174,8 +176,11 @@ class AppGUI extends JFrame {
 				rotacionarForma(new Ponto(350,350), 45.0 );
 
 			} else if(event.getSource() == jbEscalar) {
-				escalarForma(1.2);
-
+				/*String fatorEscalarString = JOptionPane.showInputDialog("Quantas vezes deseja escalar?");
+				if(fatorEscalarString.matches("[0-9]{1,13}(\\.[0-9]*)?")){
+					escalarForma(Double.parseDouble(fatorEscalarString));
+				}*/
+				areaDesenho.setTipo(ModosDeTrabalho.ESCALAR);
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());

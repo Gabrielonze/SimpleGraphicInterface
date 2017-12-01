@@ -57,13 +57,13 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 		this.tipo = tipo;
 		p1 = null;
 		p2 = null;
-
-		deselecionarForma();
 		
 		msg.setText("Primitivo: "+tipo.name().replace("_", " "));
 		
 		if(this.tipo == ModosDeTrabalho.LINHA_POLIGONAL || this.tipo == ModosDeTrabalho.POLIGONO) {
 			lp = new LinhaPoligonal(new ArrayList<Ponto>(), currentColor);
+		} else if (tipo != ModosDeTrabalho.ESCALAR) {
+			deselecionarForma();
 		}
 
 	}
@@ -96,10 +96,23 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			
 			p1 = new Ponto(e.getX(), e.getY());
 			repaint();
-			
-		} else if (e.getButton() == 1 && tipo != ModosDeTrabalho.SELECIONAR) {
+
+		} else if (e.getButton() == 1 && tipo != ModosDeTrabalho.SELECIONAR && tipo != ModosDeTrabalho.ESCALAR) {
 			p1 = new Ponto(e.getX(), e.getY());
 			p2 = null;
+		} else if (tipo == ModosDeTrabalho.ESCALAR){
+
+			if(e.getButton() == 1){
+				p1 = new Ponto(0, e.getY());
+				p2 = null;
+			} else if(e.getButton() == 3){
+				tipo = ModosDeTrabalho.SELECIONAR;
+				p1 = null;
+				p2 = null;
+				deselecionarForma();
+			}
+
+
 		} else if (e.getButton() == 3 && tipo == ModosDeTrabalho.LINHA_POLIGONAL) {
 			p1 = null;
 			p2 = null;
@@ -128,22 +141,32 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
             formas.add(new Retangulo(p1, p2, currentColor));
 		}
 		
-		if(tipo != ModosDeTrabalho.LINHA_POLIGONAL && tipo != ModosDeTrabalho.POLIGONO) {
+		if(tipo != ModosDeTrabalho.LINHA_POLIGONAL && tipo != ModosDeTrabalho.POLIGONO
+				&& tipo != ModosDeTrabalho.ESCALAR) {
 			p1 = null;
 			p2 = null;
 		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		message(e);
+		//message(e);
 		if(tipo == ModosDeTrabalho.LINHA_POLIGONAL || tipo == ModosDeTrabalho.POLIGONO) {
 			if(p1 != null) {
 				oldP2 = p2;
 				p2 = new Ponto(e.getX(), e.getY());
 				repaint();
 			}
-			
-		}    
+		} else if(tipo == ModosDeTrabalho.ESCALAR) {
+			if(p1 != null){
+				Ponto newPonto = new Ponto(0, e.getY());
+				Double distancia = p1.calcularDistancia(newPonto);
+				Double fatorEscala = distancia / 100;
+				escalarFormaSelecionada(fatorEscala);
+				msg.setText("Primitivo: "+ fatorEscala);
+
+
+			}
+		}
 	}
 
 	public void mouseClicked(MouseEvent e) {}

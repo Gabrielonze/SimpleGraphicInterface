@@ -8,6 +8,7 @@ public class Retangulo extends Forma {
         //vertice 1 é oposto ao 2
         //vertice 3 é oposto ao 4
         Ponto vertice1, vertice2, vertice3, vertice4;
+        Double fatorEscala = 1D;
 
     //Construtores
     Retangulo(int x1, int y1, int x2, int y2){
@@ -74,10 +75,11 @@ public class Retangulo extends Forma {
 
     @Override
     public void escalar(double fatorEscala) {
-        this.vertice1.escalar(fatorEscala);
+        /*this.vertice1.escalar(fatorEscala);
         this.vertice2.escalar(fatorEscala);
         this.vertice3.escalar(fatorEscala);
-        this.vertice4.escalar(fatorEscala);
+        this.vertice4.escalar(fatorEscala);*/
+        this.fatorEscala = fatorEscala;
     }
 
     @Override
@@ -92,10 +94,22 @@ public class Retangulo extends Forma {
     private ArrayList<Reta> calcularRetas() {
         ArrayList<Reta> retas = new ArrayList<>();
 
-        retas.add(new Reta(this.vertice1, this.vertice3, this._cor));
-        retas.add(new Reta(this.vertice1, this.vertice4, this._cor));
-        retas.add(new Reta(this.vertice2, this.vertice3, this._cor));
-        retas.add(new Reta(this.vertice2, this.vertice4, this._cor));
+        Ponto v1_escala = new Ponto(vertice1.getX(), vertice1.getY());
+        v1_escala.escalar(fatorEscala);
+
+        Ponto v2_escala = new Ponto(vertice2.getX(), vertice2.getY());
+        v2_escala.escalar(fatorEscala);
+
+        Ponto v3_escala = new Ponto(vertice3.getX(), vertice3.getY());
+        v3_escala.escalar(fatorEscala);
+
+        Ponto v4_escala = new Ponto(vertice4.getX(), vertice4.getY());
+        v4_escala.escalar(fatorEscala);
+
+        retas.add(new Reta(v1_escala, v3_escala, this._cor));
+        retas.add(new Reta(v1_escala, v4_escala, this._cor));
+        retas.add(new Reta(v2_escala, v3_escala, this._cor));
+        retas.add(new Reta(v2_escala, v4_escala, this._cor));
 
         return retas;
     }
