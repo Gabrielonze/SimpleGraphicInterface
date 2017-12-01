@@ -216,7 +216,7 @@ class AppGUI extends JFrame {
 			try{
 				if(split.length == 2){
 					String xStr = split[0].trim();
-					String yStr = split[0].trim();
+					String yStr = split[1].trim();
 					int fatorX = Integer.parseInt(xStr);
 					int fatorY = Integer.parseInt(yStr);
 					areaDesenho.transladarFormaSelecionada(fatorX, fatorY);
