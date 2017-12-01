@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.*;
 
 public class PainelDesenho extends JPanel implements MouseListener, MouseMotionListener {
+	AppGUI appGUI;
 	JLabel msg;
 	ModosDeTrabalho tipo;
 	Ponto p1;
@@ -45,9 +46,10 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
     }
 
 
-	public PainelDesenho(JLabel msg, ModosDeTrabalho tipo) {
+	public PainelDesenho(JLabel msg, ModosDeTrabalho tipo, AppGUI appGUI) {
 		this.tipo = tipo;
 		this.msg = msg;
+		this.appGUI = appGUI;
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -213,6 +215,7 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			}
         }
 
+		appGUI.buttonStatus(encontrouForma);
         System.out.println(encontrouForma);
 	}
 	  
@@ -295,9 +298,5 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			formaSelecionada.rotacionar(ponto, angulo);
 			repaint();
 		}
-	}
-
-	public void iniciarRotacionarFormaSelecionada(Double angulo) {
-
 	}
 }

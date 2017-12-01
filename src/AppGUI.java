@@ -18,7 +18,7 @@ class AppGUI extends JFrame {
 	private JLabel msg = new JLabel("Msg: ");
 	ModosDeTrabalho tipo = ModosDeTrabalho.NENHUM;
 
-	private PainelDesenho areaDesenho = new PainelDesenho(msg, tipo);
+	private PainelDesenho areaDesenho = new PainelDesenho(msg, tipo, this);
 	private JToolBar barraComandos = new JToolBar();
 	private JToolBar barraComandosPrimitivos = new JToolBar(JToolBar.VERTICAL);
 
@@ -183,13 +183,11 @@ class AppGUI extends JFrame {
 	}
 
 	private void rotacionarForma() {
-		buttonStatus(true);
 		areaDesenho.setTipo(ModosDeTrabalho.ROTACIONAR);
 
 	}
 
 	private void escalarForma() {
-		buttonStatus(true);
 
 		String fatorEscalarString = JOptionPane.showInputDialog("Quantas vezes deseja escalar?");
 
@@ -206,7 +204,6 @@ class AppGUI extends JFrame {
 	}
 
 	private void transladarForma(){
-		buttonStatus(true);
 		String moveString = JOptionPane.showInputDialog("Quanto deseja mover?\nInsira: (x, y) Exemplo:\n30, 20 ");
 
 		if(moveString != null){
@@ -230,12 +227,10 @@ class AppGUI extends JFrame {
 	}
 
 	private void apagarForma() {
-		buttonStatus(true);
 		areaDesenho.apagarFormaSelecionada();
 	}
 
 	private void selecionarForma() {
-		buttonStatus(true);
 		areaDesenho.setTipo(ModosDeTrabalho.SELECIONAR);
 	}
 	
@@ -249,7 +244,7 @@ class AppGUI extends JFrame {
 		areaDesenho.setCor(newColor);
 	}
 
-	private void buttonStatus(boolean status) {
+	public void buttonStatus(boolean status) {
 		jbApagar.setEnabled(status);
 		jbMover.setEnabled(status);
 		jbRotacionar.setEnabled(status);
