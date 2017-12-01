@@ -5,19 +5,26 @@ import java.util.ArrayList;
 
 public class Retangulo extends Forma {
 
-        Ponto vertice1, vertice2;
+        //vertice 1 é oposto ao 2
+        //vertice 3 é oposto ao 4
+        Ponto vertice1, vertice2, vertice3, vertice4;
 
     //Construtores
     Retangulo(int x1, int y1, int x2, int y2){
 
         setVertice1(new Ponto(x1, y1));
         setVertice2(new Ponto(x2, y2));
+
+        this.vertice3 = new Ponto(this.getVertice1().getX(), this.getVertice2().getY() );
+        this.vertice4 = new Ponto(this.getVertice2().getX(), this.getVertice1().getY());
         this._cor = Color.BLACK;
     }
 
     Retangulo(Ponto p1, Ponto p2){
         setVertice1(new Ponto(p1));
         setVertice2(new Ponto(p2));
+        this.vertice3 = new Ponto(this.getVertice1().getX(), this.getVertice2().getY() );
+        this.vertice4 = new Ponto(this.getVertice2().getX(), this.getVertice1().getY());
         this._cor = Color.BLACK;
     }
 
@@ -26,12 +33,16 @@ public class Retangulo extends Forma {
 
         setVertice1(new Ponto(x1, y1));
         setVertice2(new Ponto(x2, y2));
+        this.vertice3 = new Ponto(this.getVertice1().getX(), this.getVertice2().getY() );
+        this.vertice4 = new Ponto(this.getVertice2().getX(), this.getVertice1().getY());
         this._cor =  color;
     }
 
     public Retangulo(Ponto p1, Ponto p2, Color color){
         setVertice1(new Ponto(p1));
         setVertice2(new Ponto(p2));
+        this.vertice3 = new Ponto(this.getVertice1().getX(), this.getVertice2().getY() );
+        this.vertice4 = new Ponto(this.getVertice2().getX(), this.getVertice1().getY());
         this._cor =  color;
     }
 
@@ -57,31 +68,34 @@ public class Retangulo extends Forma {
     public void rotacionar(Ponto p, double angulo) {
         this.vertice1.rotacionar(p, angulo);
         this.vertice2.rotacionar(p, angulo);
+        this.vertice3.rotacionar(p, angulo);
+        this.vertice4.rotacionar(p, angulo);
     }
 
     @Override
     public void escalar(double fatorEscala) {
         this.vertice1.escalar(fatorEscala);
         this.vertice2.escalar(fatorEscala);
+        this.vertice3.escalar(fatorEscala);
+        this.vertice4.escalar(fatorEscala);
     }
 
     @Override
     public void transladar(int distanciaX, int distanciaY) {
         this.vertice1.transladar(distanciaX, distanciaY);
         this.vertice2.transladar(distanciaX, distanciaY);
+        this.vertice3.transladar(distanciaX, distanciaY);
+        this.vertice4.transladar(distanciaX, distanciaY);
 
     }
 
     private ArrayList<Reta> calcularRetas() {
         ArrayList<Reta> retas = new ArrayList<>();
 
-        Ponto vertice3 = new Ponto(this.getVertice1().getX(), this.getVertice2().getY() );
-        Ponto vertice4 = new Ponto(this.getVertice2().getX(), this.getVertice1().getY());
-
-        retas.add(new Reta(this.vertice1, vertice3, this._cor));
-        retas.add(new Reta(this.vertice1, vertice4, this._cor));
-        retas.add(new Reta(this.vertice2, vertice3, this._cor));
-        retas.add(new Reta(this.vertice2, vertice4, this._cor));
+        retas.add(new Reta(this.vertice1, this.vertice3, this._cor));
+        retas.add(new Reta(this.vertice1, this.vertice4, this._cor));
+        retas.add(new Reta(this.vertice2, this.vertice3, this._cor));
+        retas.add(new Reta(this.vertice2, this.vertice4, this._cor));
 
         return retas;
     }
