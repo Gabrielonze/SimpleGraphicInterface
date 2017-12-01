@@ -53,16 +53,23 @@ public class LinhaPoligonal extends Forma {
 
     @Override
     public void rotacionar(Ponto p, double angulo) {
-
+        for(Ponto vertice : this.pontos){
+            vertice.rotacionar(p, angulo);
+        }
     }
 
     @Override
     public void escalar(double fatorEscala) {
-
+        for(Ponto p : this.pontos){
+            p.escalar(fatorEscala);
+        }
     }
 
     @Override
-    public void transladar(double distanciaX, double distanciaY) {
+    public void transladar(int distanciaX, int distanciaY) {
+        for(Ponto p : this.pontos){
+            p.transladar(distanciaX, distanciaY);
+        }
 
     }
 

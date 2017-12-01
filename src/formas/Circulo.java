@@ -51,16 +51,18 @@ public class Circulo extends Forma {
     //métodos de todas as formas
     @Override
     public void rotacionar(Ponto p, double angulo) {
-
+        this._centro.rotacionar(p, angulo);
     }
 
     @Override
     public void escalar(double fatorEscala) {
-
+        this._centro.escalar(fatorEscala);
+        this._raio = this._raio * fatorEscala;
     }
 
     @Override
-    public void transladar(double distanciaX, double distanciaY) {
+    public void transladar(int distanciaX, int distanciaY) {
+       this._centro.transladar(distanciaX, distanciaY);
 
     }
 

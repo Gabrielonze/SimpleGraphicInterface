@@ -55,31 +55,33 @@ public class Retangulo extends Forma {
 
     @Override
     public void rotacionar(Ponto p, double angulo) {
-
+        this.vertice1.rotacionar(p, angulo);
+        this.vertice2.rotacionar(p, angulo);
     }
 
     @Override
     public void escalar(double fatorEscala) {
-
+        this.vertice1.escalar(fatorEscala);
+        this.vertice2.escalar(fatorEscala);
     }
 
     @Override
-    public void transladar(double distanciaX, double distanciaY) {
+    public void transladar(int distanciaX, int distanciaY) {
+        this.vertice1.transladar(distanciaX, distanciaY);
+        this.vertice2.transladar(distanciaX, distanciaY);
 
     }
 
     private ArrayList<Reta> calcularRetas() {
         ArrayList<Reta> retas = new ArrayList<>();
 
-        Ponto2D ponto1 = new Ponto2D((int)getVertice1().getX(), (int)getVertice1().getY());
-        Ponto2D ponto2 = new Ponto2D((int)getVertice1().getX(), (int)getVertice2().getY());
-        Ponto2D ponto3 = new Ponto2D((int)getVertice2().getX(), (int)getVertice1().getY());
-        Ponto2D ponto4 = new Ponto2D((int)getVertice2().getX(), (int)getVertice2().getY());
+        Ponto vertice3 = new Ponto(this.getVertice1().getX(), this.getVertice2().getY() );
+        Ponto vertice4 = new Ponto(this.getVertice2().getX(), this.getVertice1().getY());
 
-        retas.add(new Reta(ponto1, ponto2, this._cor));
-        retas.add(new Reta(ponto3, ponto4, this._cor));
-        retas.add(new Reta(ponto1, ponto3, this._cor));
-        retas.add(new Reta(ponto2, ponto4, this._cor));
+        retas.add(new Reta(this.vertice1, vertice3, this._cor));
+        retas.add(new Reta(this.vertice1, vertice4, this._cor));
+        retas.add(new Reta(this.vertice2, vertice3, this._cor));
+        retas.add(new Reta(this.vertice2, vertice4, this._cor));
 
         return retas;
     }

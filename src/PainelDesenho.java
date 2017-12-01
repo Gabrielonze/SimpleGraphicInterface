@@ -187,10 +187,10 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
         deselecionarForma();
 		System.out.println("Selected: FORM in ("+ x + ", " + y + ")");
 		boolean encontrouForma = false;
-		double margemDeErro = 5;
+		int margemDeErro = 10;
 
         for (Forma forma : formas) {
-			if ( forma.pontoNaForma(new Ponto(x, y), 10) ) {
+			if ( forma.pontoNaForma(new Ponto(x, y), margemDeErro) ) {
 				encontrouForma = true;
 				formaSelecionada = forma;
 				corFormaSelecinada = forma.get_cor();
@@ -259,6 +259,27 @@ public class PainelDesenho extends JPanel implements MouseListener, MouseMotionL
 			formas.remove(formaSelecionada);
 			formaSelecionada = null;
 			corFormaSelecinada = null;
+			repaint();
+		}
+	}
+
+	public void transladarFormaSelecionada(int fatorX, int fatorY) {
+		if(formaSelecionada != null && corFormaSelecinada != null) {
+			formaSelecionada.transladar(fatorX, fatorY);
+			repaint();
+		}
+	}
+
+	public void escalarFormaSelecionada(double fatorEscala) {
+		if(formaSelecionada != null && corFormaSelecinada != null) {
+			formaSelecionada.escalar(fatorEscala);
+			repaint();
+		}
+	}
+
+	public void rotacionarFormaSelecionada(Ponto ponto, double angulo) {
+		if(formaSelecionada != null && corFormaSelecinada != null) {
+			formaSelecionada.rotacionar(ponto, angulo);
 			repaint();
 		}
 	}

@@ -132,16 +132,34 @@ class AppGUI extends JFrame {
 			} else if(event.getSource() == jbApagar) {
 				apagarForma();
 			} else if(event.getSource() == jbMover) {
+				transladarForma(50, 10);
 
 			} else if(event.getSource() == jbRotacionar) {
+				rotacionarForma(new Ponto(350,350), 45.0 );
 
 			} else if(event.getSource() == jbEscalar) {
+				escalarForma(1.2);
 
 			}
 			
 			System.out.println("Botão clicado: " + ( (JButton) event.getSource()).getText());
 			
 		}
+	}
+
+	private void rotacionarForma(Ponto ponto, double angulo) {
+		buttonStatus(true);
+		areaDesenho.rotacionarFormaSelecionada(ponto, angulo);
+	}
+
+	private void escalarForma(double fatorEscala) {
+		buttonStatus(true);
+		areaDesenho.escalarFormaSelecionada(fatorEscala);
+	}
+
+	private void transladarForma(int fatorX, int fatorY){
+		buttonStatus(true);
+		areaDesenho.transladarFormaSelecionada(fatorX, fatorY);
 	}
 
 	private void apagarForma() {

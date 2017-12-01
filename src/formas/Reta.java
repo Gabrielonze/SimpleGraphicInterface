@@ -79,7 +79,11 @@ public class Reta extends Forma {
         double a = this.eq.getA();
         double b = this.eq.getB();
         double c = this.eq.getC();
-        distancia = Math.abs( (a*p.getX() + b*p.getY() + c))/ Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        if (Double.isInfinite(a)){
+            distancia = Math.abs(this.p1.getX() - p.getX());
+        } else {
+            distancia = Math.abs((a * p.getX() + b * p.getY() + c)) / Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        }
         return distancia;
     }
 
@@ -87,17 +91,24 @@ public class Reta extends Forma {
 
     @Override
     public void rotacionar(Ponto p, double angulo) {
+        this.p1.rotacionar(p, angulo);
+        this.p2.rotacionar(p, angulo);;
+        this.eq = new EquacaoDaReta(this.p1, this.p2);
 
     }
 
     @Override
     public void escalar(double fatorEscala) {
-
+        this.p1.escalar(fatorEscala);
+        this.p2.escalar(fatorEscala);
+        this.eq = new EquacaoDaReta(this.p1, this.p2);
     }
 
     @Override
-    public void transladar(double distanciaX, double distanciaY) {
-
+    public void transladar(int distanciaX, int distanciaY) {
+        this.p1.transladar(distanciaX, distanciaY);
+        this.p2.transladar(distanciaX, distanciaY);
+        this.eq = new EquacaoDaReta(this.p1, this.p2);
     }
 
     @Override
@@ -193,8 +204,11 @@ public class Reta extends Forma {
     }
 
     public boolean pontoNaForma(Ponto p, int margemDeErro){
-        return (calculaDistanciaEntreRetaEPonto(p) <= margemDeErro)
-                && ((p.getX() >= getP1().getX() && p.getX() <= getP2().getX()) || (p.getX() >= getP2().getX() && p.getX() <= getP1().getX()))
-                && ((p.getY() >= getP1().getY() && p.getY() <= getP2().getY()) || (p.getY() >= getP2().getY() && p.getY() <= getP1().getY()));
+        boolean pontoNaReta = (calculaDistanciaEntreRetaEPonto(p) <= margemDeErro);
+        boolean dentroDoLimiteDeX = (p.getX() >= (this.getP1().getX() - margemDeErro) && p.getX() <= (this.getP2().getX() + margemDeErro)) ||
+                (p.getX() >= (this.getP2().getX() - margemDeErro) && p.getX() <= (this.getP1().getX() + margemDeErro));
+        boolean dentroDoLimiteDeY = (p.getY() >= (this.getP1().getY() - margemDeErro) && p.getY() <= (this.getP2().getY() + margemDeErro)) ||
+                                    (p.getY() >= (this.getP2().getY() - margemDeErro) && p.getY() <= (this.getP1().getY() + margemDeErro));
+        return (pontoNaReta && dentroDoLimiteDeY && dentroDoLimiteDeX);
     }
 }

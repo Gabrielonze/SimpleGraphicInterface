@@ -8,7 +8,7 @@ public abstract class Forma {
 
     public abstract void rotacionar(Ponto p, double angulo);
     public abstract void escalar(double fatorEscala);
-    public abstract void transladar(double distanciaX, double distanciaY);
+    public abstract void transladar(int distanciaX, int distanciaY);
     public abstract void desenhar(Graphics g);
     public abstract boolean pontoNaForma(Ponto p, int margemDeErro);
 
